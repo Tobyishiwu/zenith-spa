@@ -120,7 +120,7 @@ export default function BookingDetailsModal({
               </h3>
               {booking.paymentProof ? (
                 <img
-                  src={`http://localhost:5000${booking.paymentProof}`}
+src={`${import.meta.env.VITE_SERVER_URL}${booking.paymentProof}`}
                   alt="Payment Receipt"
                   className="w-full rounded-xl border object-cover"
                   onError={(e) => {
