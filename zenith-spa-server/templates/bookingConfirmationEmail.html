@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zenith Spa Booking Confirmation</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#f5f7fa;
+font-family:Arial,Helvetica,sans-serif;
+color:#333;
+padding:40px;
+}
+
+.wrapper{
+max-width:700px;
+margin:auto;
+background:#fff;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.header{
+background:#123456;
+padding:40px;
+text-align:center;
+color:#fff;
+}
+
+.header h1{
+font-size:34px;
+letter-spacing:2px;
+margin-bottom:10px;
+}
+
+.header p{
+opacity:.85;
+font-size:15px;
+}
+
+.content{
+padding:40px;
+}
+
+h2{
+color:#123456;
+margin-bottom:25px;
+}
+
+.section{
+margin-bottom:30px;
+}
+
+.label{
+font-weight:bold;
+margin-bottom:5px;
+color:#123456;
+}
+
+.value{
+margin-bottom:15px;
+}
+
+.status{
+display:inline-block;
+padding:8px 16px;
+background:#d4af37;
+color:#fff;
+border-radius:30px;
+font-weight:bold;
+}
+
+.buttons{
+margin-top:40px;
+text-align:center;
+}
+
+.button{
+display:inline-block;
+padding:15px 28px;
+background:#123456;
+color:white !important;
+text-decoration:none;
+border-radius:8px;
+margin:10px;
+font-weight:bold;
+}
+
+.button.secondary{
+background:#d4af37;
+}
+
+.footer{
+padding:30px;
+background:#fafafa;
+text-align:center;
+font-size:14px;
+color:#777;
+}
+
+.footer strong{
+display:block;
+margin-bottom:8px;
+color:#123456;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="header">
+
+<h1>ZENITH SPA</h1>
+
+<p>Luxury Mobile Spa Experience</p>
+
+</div>
+
+<div class="content">
+
+<h2>Your Appointment Has Been Confirmed 🎉</h2>
+
+<p style="margin-bottom:25px;line-height:1.7;">
+
+Hello <strong>{{customerName}}</strong>,
+
+<br><br>
+
+We're delighted to let you know that your payment has been verified and your appointment has been officially confirmed.
+
+</p>
+
+<div class="section">
+
+<div class="label">Booking Reference</div>
+
+<div class="value">
+
+<strong>{{bookingReference}}</strong>
+
+</div>
+
+<div class="status">
+
+{{bookingStatus}}
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="label">Therapist</div>
+
+<div class="value">
+
+{{therapist}}
+
+</div>
+
+<div class="label">Service</div>
+
+<div class="value">
+
+{{service}}
+
+</div>
+
+<div class="label">Appointment Date</div>
+
+<div class="value">
+
+{{appointmentDate}}
+
+</div>
+
+<div class="label">Appointment Time</div>
+
+<div class="value">
+
+{{appointmentTime}}
+
+</div>
+
+<div class="label">Amount Paid</div>
+
+<div class="value">
+
+${{amount}}
+
+</div>
+
+</div>
+
+<div class="buttons">
+
+<a
+href="{{trackLink}}"
+class="button">
+
+Track My Booking
+
+</a>
+
+<a
+href="{{downloadLink}}"
+class="button secondary">
+
+Download Confirmation
+
+</a>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<strong>
+
+Thank you for choosing Zenith Spa.
+
+</strong>
+
+If you have any questions,
+
+simply reply to this email or contact our support team.
+
+<br><br>
+
+www.zenithspa.com
+
+</div>
+
+</div>
+
+</body>
+
+</html>
