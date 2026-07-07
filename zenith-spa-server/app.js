@@ -16,11 +16,21 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors());
+// CORS Configuration
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: false,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Static Uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Routes
 app.use("/api/payment-methods", paymentMethodRoutes);
 app.use("/api/bookings", bookingRoutes);
 
