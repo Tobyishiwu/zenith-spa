@@ -9,9 +9,22 @@ const useTherapists = () => {
     const fetchTherapists = async () => {
       try {
         const res = await api.get("/therapists");
-        setTherapists(res.data.data);
+
+console.log("Therapists API Response:", res.data);
+
+        console.log("THERAPISTS RESPONSE:", res.data);
+
+const data = Array.isArray(res.data?.data)
+          ? res.data.data
+          : [];
+
+        console.log("THERAPISTS RESPONSE:", res.data);
+console.log("THERAPISTS STATE:", data);
+
+setTherapists(data);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch therapists:", error);
+        setTherapists([]);
       } finally {
         setLoading(false);
       }
@@ -20,7 +33,13 @@ const useTherapists = () => {
     fetchTherapists();
   }, []);
 
-  return { therapists, loading };
+  return {
+    therapists,
+    loading,
+  };
 };
 
 export default useTherapists;
+
+
+

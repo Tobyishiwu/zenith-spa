@@ -12,7 +12,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 import axios from "../api/axios";
-import useServices from "../hooks/useServices";
+import { services as dbServices } from "../data/services";
 import usePaymentMethods from "../hooks/usePaymentMethods";
 
 const fallback =
@@ -25,8 +25,11 @@ const isEmpty = (value) =>
 
 const BookingForm = ({ therapist, preselectedService }) => {
   const navigate = useNavigate();
-  const { services: dbServices } = useServices();
   const { paymentMethods } = usePaymentMethods();
+
+const safePaymentMethods = Array.isArray(paymentMethods)
+  ? paymentMethods
+  : [];
 
   const [therapists, setTherapists] = useState([]);
   const [therapistsLoading, setTherapistsLoading] = useState(false);
@@ -144,7 +147,7 @@ const BookingForm = ({ therapist, preselectedService }) => {
   return (
     <div className="space-y-5 pb-10">
 
-      {/* ── Therapist card ─────────────────────────────────────────── */}
+      {/* -- Therapist card ------------------------------------------- */}
       {therapist && (
         <div className="relative overflow-hidden rounded-2xl bg-white p-5 shadow-lg sm:rounded-3xl sm:p-6 md:p-8">
           <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-white to-emerald-50 opacity-60" />
@@ -191,7 +194,7 @@ const BookingForm = ({ therapist, preselectedService }) => {
         </div>
       )}
 
-      {/* ── Service summary card ───────────────────────────────────── */}
+      {/* -- Service summary card ------------------------------------- */}
       {preselectedService && (
         <div className="relative overflow-hidden rounded-2xl bg-white p-5 shadow-lg sm:rounded-3xl sm:p-6 md:p-8">
           <div className="absolute inset-0 bg-gradient-to-br from-stone-50 via-white to-teal-50 opacity-70" />
@@ -225,7 +228,7 @@ const BookingForm = ({ therapist, preselectedService }) => {
         </div>
       )}
 
-      {/* ── Main form ─────────────────────────────────────────────── */}
+      {/* -- Main form ----------------------------------------------- */}
       <div className="rounded-2xl bg-white p-5 shadow-lg sm:rounded-3xl sm:p-6 md:p-10">
         <div className="mb-6">
           <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">Booking Details</h3>
@@ -360,7 +363,7 @@ const BookingForm = ({ therapist, preselectedService }) => {
             <div className="sm:col-span-2">
               <label className="mb-3 block text-sm font-semibold text-gray-700">Payment Method</label>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {paymentMethods.map((method) => {
+                {safePaymentMethods.map((method) => {
                   const selected = formData.paymentMethod === method._id;
                   return (
                     <button
@@ -435,3 +438,5 @@ const BookingForm = ({ therapist, preselectedService }) => {
 };
 
 export default BookingForm;
+
+

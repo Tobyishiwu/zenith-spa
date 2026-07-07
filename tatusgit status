@@ -1,0 +1,284 @@
+warning: in the working copy of 'zenith-spa-client/src/pages/Services.jsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/zenith-spa-client/src/components/BookingForm.jsx b/zenith-spa-client/src/components/BookingForm.jsx[m
+[1mindex 0179ecd..c4dd54e 100644[m
+[1m--- a/zenith-spa-client/src/components/BookingForm.jsx[m
+[1m+++ b/zenith-spa-client/src/components/BookingForm.jsx[m
+[36m@@ -12,7 +12,7 @@[m [mimport {[m
+   FaStar,[m
+ } from "react-icons/fa";[m
+ import axios from "../api/axios";[m
+[31m-import useServices from "../hooks/useServices";[m
+[32m+[m[32mimport { services as dbServices } from "../data/services";[m
+ import usePaymentMethods from "../hooks/usePaymentMethods";[m
+ [m
+ const fallback =[m
+[36m@@ -25,7 +25,6 @@[m [mconst isEmpty = (value) =>[m
+ [m
+ const BookingForm = ({ therapist, preselectedService }) => {[m
+   const navigate = useNavigate();[m
+[31m-  const { services: dbServices } = useServices();[m
+   const { paymentMethods } = usePaymentMethods();[m
+ [m
+   const [therapists, setTherapists] = useState([]);[m
+[1mdiff --git a/zenith-spa-client/src/components/Hero.jsx b/zenith-spa-client/src/components/Hero.jsx[m
+[1mindex 4daa76f..2499992 100644[m
+[1m--- a/zenith-spa-client/src/components/Hero.jsx[m
+[1m+++ b/zenith-spa-client/src/components/Hero.jsx[m
+[36m@@ -5,97 +5,105 @@[m [mimport HeroCard from "./HeroCard";[m
+ [m
+ const Hero = () => {[m
+   return ([m
+[31m-    <section className="relative overflow-hidden bg-[#F8F6F2] pt-36 pb-24">[m
+[31m-      {/* Soft Clean Ambient Gradients */}[m
+[31m-      <div className="absolute -left-24 top-24 h-96 w-96 rounded-full bg-teal-100/40 blur-3xl" />[m
+[31m-      <div className="absolute -right-24 bottom-12 h-[500px] w-[500px] rounded-full bg-stone-200/50 blur-3xl" />[m
+[31m-[m
+[31m-      <div className="relative mx-auto grid min-h-[80vh] max-w-7xl items-center gap-16 px-6 lg:grid-cols-2 lg:px-8">[m
+[31m-        [m
+[31m-        {/* LEFT COLUMN: CONTENT */}[m
+[31m-        <div className="flex flex-col justify-center">[m
+[31m-          <div>[m
+[31m-            <span className="inline-flex items-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 ring-1 ring-stone-200 shadow-sm">[m
+[32m+[m[32m    <section className="relative overflow-hidden bg-[#F8F6F2] pt-24 pb-16 sm:pt-28 lg:pt-36 lg:pb-24">[m
+[32m+[m
+[32m+[m[32m      {/* Ambient gradients */}[m
+[32m+[m[32m      <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-teal-100/40 blur-3xl lg:h-96 lg:w-96" />[m
+[32m+[m[32m      <div className="absolute -right-24 bottom-12 h-80 w-80 rounded-full bg-stone-200/50 blur-3xl lg:h-[500px] lg:w-[500px]" />[m
+[32m+[m
+[32m+[m[32m      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">[m
+[32m+[m
+[32m+[m[32m        {/* ── DESKTOP layout: two-column grid ─────────────────────── */}[m
+[32m+[m[32m        <div className="lg:grid lg:min-h-[80vh] lg:grid-cols-2 lg:items-center lg:gap-16">[m
+[32m+[m
+[32m+[m[32m          {/* LEFT — Content */}[m
+[32m+[m[32m          <div className="flex flex-col justify-center">[m
+[32m+[m
+[32m+[m[32m            <span className="inline-flex w-fit items-center rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 ring-1 ring-stone-200 shadow-sm sm:px-5 sm:py-2">[m
+               ✨ Premium Mobile Spa Services[m
+             </span>[m
+[31m-          </div>[m
+ [m
+[31m-          <h1 className="mt-8 text-5xl font-light leading-[1.1] tracking-tight text-stone-900 sm:text-6xl lg:text-7xl">[m
+[31m-            Wellness[m
+[31m-            <br />[m
+[31m-            Delivered[m
+[31m-            <br />[m
+[31m-            <span className="font-semibold text-teal-600">To Your Doorstep.</span>[m
+[31m-          </h1>[m
+[31m-[m
+[31m-          <p className="mt-6 max-w-xl text-base leading-8 text-stone-500">[m
+[31m-            Experience world-class spa treatments, premium therapeutic massages, and deep somatic rejuvenation delivered safely directly to your home, hotel room, or workspace.[m
+[31m-          </p>[m
+[31m-[m
+[31m-          {/* Social Proof & Trust Metrics */}[m
+[31m-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs font-medium text-stone-500">[m
+[31m-            <div className="flex items-center gap-2">[m
+[31m-              <FaStar className="text-amber-400 text-sm" />[m
+[31m-              <span className="tracking-wide">4.9/5 Luxury Rating</span>[m
+[32m+[m[32m            <h1 className="mt-6 text-4xl font-light leading-[1.1] tracking-tight text-stone-900 sm:mt-8 sm:text-5xl lg:text-6xl xl:text-7xl">[m
+[32m+[m[32m              Wellness[m
+[32m+[m[32m              <br />[m
+[32m+[m[32m              Delivered[m
+[32m+[m[32m              <br />[m
+[32m+[m[32m              <span className="font-semibold text-teal-600">To Your Doorstep.</span>[m
+[32m+[m[32m            </h1>[m
+[32m+[m
+[32m+[m[32m            <p className="mt-5 max-w-xl text-sm leading-7 text-stone-500 sm:mt-6 sm:text-base sm:leading-8">[m
+[32m+[m[32m              Experience world-class spa treatments, premium therapeutic massages, and deep somatic rejuvenation delivered directly to your home, hotel room, or workspace.[m
+[32m+[m[32m            </p>[m
+[32m+[m
+[32m+[m[32m            {/* Trust metrics */}[m
+[32m+[m[32m            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-xs font-medium text-stone-500 sm:mt-8 sm:gap-x-6">[m
+[32m+[m[32m              <div className="flex items-center gap-1.5">[m
+[32m+[m[32m                <FaStar className="text-amber-400" />[m
+[32m+[m[32m                <span>4.9 / 5 Rating</span>[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m              <div className="flex items-center gap-1.5">[m
+[32m+[m[32m                <FaCheckCircle className="text-teal-600" />[m
+[32m+[m[32m                <span>Certified Therapists</span>[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m              <div className="flex items-center gap-1.5">[m
+[32m+[m[32m                <FaCheckCircle className="text-teal-600" />[m
+[32m+[m[32m                <span>Available Daily</span>[m
+[32m+[m[32m              </div>[m
+             </div>[m
+ [m
+[31m-            <div className="flex items-center gap-2">[m
+[31m-              <FaCheckCircle className="text-teal-600" />[m
+[31m-              <span>Certified Therapists</span>[m
+[32m+[m[32m            {/* CTAs */}[m
+[32m+[m[32m            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">[m
+[32m+[m[32m              <Link[m
+[32m+[m[32m                to="/booking"[m
+[32m+[m[32m                className="group inline-flex items-center justify-center gap-2.5 rounded-2xl bg-stone-900 px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-black hover:shadow-md sm:py-4"[m
+[32m+[m[32m              >[m
+[32m+[m[32m                Book Appointment[m
+[32m+[m[32m                <FaArrowRight className="text-xs opacity-70 transition-transform group-hover:translate-x-0.5" />[m
+[32m+[m[32m              </Link>[m
+[32m+[m[32m              <Link[m
+[32m+[m[32m                to="/services"[m
+[32m+[m[32m                className="inline-flex items-center justify-center rounded-2xl border border-stone-200 bg-white px-7 py-3.5 text-sm font-semibold text-stone-700 shadow-sm transition hover:border-stone-300 hover:bg-stone-50 sm:py-4"[m
+[32m+[m[32m              >[m
+[32m+[m[32m                Explore Services[m
+[32m+[m[32m              </Link>[m
+             </div>[m
+ [m
+[31m-            <div className="flex items-center gap-2">[m
+[31m-              <FaCheckCircle className="text-teal-600" />[m
+[31m-              <span>Available Daily</span>[m
+[32m+[m[32m            {/* Stats — desktop only, shown below CTAs */}[m
+[32m+[m[32m            <div className="mt-10 hidden border-t border-stone-200/60 pt-8 lg:block">[m
+[32m+[m[32m              <Stats />[m
+             </div>[m
+           </div>[m
+ [m
+[31m-          {/* Clean Interactive Call To Actions */}[m
+[31m-          <div className="mt-10 flex flex-wrap gap-4">[m
+[31m-            <Link[m
+[31m-              to="/booking"[m
+[31m-              className="group inline-flex items-center gap-2.5 rounded-2xl bg-stone-900 px-7 py-4 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-black hover:shadow-md"[m
+[31m-            >[m
+[31m-              Book Appointment[m
+[31m-              <FaArrowRight className="text-xs opacity-70 transition-transform duration-200 group-hover:translate-x-0.5" />[m
+[31m-            </Link>[m
+[31m-[m
+[31m-            <Link[m
+[31m-              to="/services"[m
+[31m-              className="inline-flex items-center justify-center rounded-2xl border border-stone-200 bg-white px-7 py-4 text-sm font-semibold text-stone-700 shadow-sm transition duration-200 hover:bg-stone-50 hover:border-stone-300"[m
+[31m-            >[m
+[31m-              Explore Services[m
+[31m-            </Link>[m
+[32m+[m[32m          {/* RIGHT — Image + card */}[m
+[32m+[m[32m          <div className="relative mt-10 flex justify-center lg:mt-0">[m
+[32m+[m[32m            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none">[m
+[32m+[m
+[32m+[m[32m              {/* Decorative backdrop */}[m
+[32m+[m[32m              <div className="absolute -inset-3 rounded-[48px] bg-stone-200/40 opacity-60 blur-lg" />[m
+[32m+[m
+[32m+[m[32m              {/* Hero image */}[m
+[32m+[m[32m              <img[m
+[32m+[m[32m                src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80"[m
+[32m+[m[32m                alt="Luxury Spa Wellness Session"[m
+[32m+[m[32m                className="relative h-[300px] w-full rounded-3xl object-cover shadow-md ring-1 ring-stone-200/50 sm:h-[380px] lg:h-[620px] lg:rounded-[40px] xl:h-[680px]"[m
+[32m+[m[32m              />[m
+[32m+[m
+[32m+[m[32m              {/* HeroCard — overlaps bottom of image on all sizes */}[m
+[32m+[m[32m              <div className="relative mt-[-2rem] flex justify-center lg:absolute lg:bottom-[-1.5rem] lg:left-[-1rem] lg:mt-0 lg:justify-start xl:left-[-2rem]">[m
+[32m+[m[32m                <HeroCard />[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            </div>[m
+           </div>[m
+ [m
+[31m-          {/* Inline Contextual Sub-statistics Component */}[m
+[31m-          <div className="mt-12 border-t border-stone-200/60 pt-8">[m
+[32m+[m[32m          {/* Stats — mobile only, shown after image+card */}[m
+[32m+[m[32m          <div className="mt-10 border-t border-stone-200/60 pt-8 lg:hidden">[m
+             <Stats />[m
+           </div>[m
+[31m-        </div>[m
+ [m
+[31m-        {/* RIGHT COLUMN: VISUAL COMPONENT ARCHITECTURE */}[m
+[31m-        <div className="relative lg:mt-0 mt-12 flex items-center justify-center">[m
+[31m-          <div className="relative w-full max-w-lg lg:max-w-none">[m
+[31m-            {/* Soft decorative shadow frame back drop */}[m
+[31m-            <div className="absolute -inset-4 rounded-[48px] bg-stone-200/40 opacity-60 blur-lg" />[m
+[31m-            [m
+[31m-            <img[m
+[31m-              src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80"[m
+[31m-              alt="Luxury Spa Wellness Session"[m
+[31m-              className="relative h-[560px] lg:h-[680px] w-full rounded-[40px] object-cover bg-stone-100 shadow-md ring-1 ring-stone-200/50"[m
+[31m-            />[m
+[31m-[m
+[31m-            {/* Overlapping contextual absolute card panel */}[m
+[31m-            <div className="absolute -bottom-6 -left-6 md:left-10 transition duration-300 hover:scale-[1.02]">[m
+[31m-              <HeroCard />[m
+[31m-            </div>[m
+[31m-          </div>[m
+         </div>[m
+[31m-[m
+       </div>[m
+     </section>[m
+   );[m
+ };[m
+ [m
+[31m-export default Hero;[m
+\ No newline at end of file[m
+[32m+[m[32mexport default Hero;[m
+[1mdiff --git a/zenith-spa-client/src/components/HeroCard.jsx b/zenith-spa-client/src/components/HeroCard.jsx[m
+[1mindex 576d7e0..571cb11 100644[m
+[1m--- a/zenith-spa-client/src/components/HeroCard.jsx[m
+[1m+++ b/zenith-spa-client/src/components/HeroCard.jsx[m
+[36m@@ -12,103 +12,85 @@[m [mconst HeroCard = () => {[m
+       setError("Please enter your booking reference.");[m
+       return;[m
+     }[m
+[31m-[m
+     setError("");[m
+     navigate(`/track-booking?ref=${reference.trim().toUpperCase()}`);[m
+   };[m
+ [m
+   const handleKeyDown = (e) => {[m
+[31m-    if (e.key === "Enter") {[m
+[31m-      e.preventDefault();[m
+[31m-      handleTrack();[m
+[31m-    }[m
+[32m+[m[32m    if (e.key === "Enter") { e.preventDefault(); handleTrack(); }[m
+   };[m
+ [m
+   return ([m
+[31m-    <div className="absolute -bottom-10 -left-6 w-[340px] rounded-3xl border border-white/60 bg-white/80 p-7 shadow-2xl backdrop-blur-xl lg:-left-14">[m
+[32m+[m[32m    <div className="w-[92vw] max-w-[340px] rounded-3xl border border-white/60 bg-white/85 p-5 shadow-2xl backdrop-blur-xl sm:w-[340px] sm:p-6">[m
+[32m+[m
+       {/* Badge */}[m
+[31m-      <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3.5 py-1.5 text-xs font-semibold text-teal-700 ring-1 ring-teal-100">[m
+[32m+[m[32m      <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700 ring-1 ring-teal-100">[m
+         <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />[m
+         Already Booked?[m
+       </span>[m
+ [m
+       {/* Heading */}[m
+[31m-      <h3 className="mt-4 text-xl font-bold leading-snug text-gray-900">[m
+[32m+[m[32m      <h3 className="mt-3 text-base font-bold leading-snug text-gray-900 sm:text-lg">[m
+         Track Your Booking[m
+       </h3>[m
+ [m
+       {/* Description */}[m
+[31m-      <p className="mt-1.5 text-xs leading-relaxed text-gray-500">[m
+[31m-        Stay updated on your appointment by entering your booking reference.[m
+[32m+[m[32m      <p className="mt-1 text-xs leading-relaxed text-gray-500">[m
+[32m+[m[32m        Enter your booking reference to view your appointment status.[m
+       </p>[m
+ [m
+       {/* Input */}[m
+[31m-      <div className="mt-5">[m
+[32m+[m[32m      <div className="mt-4">[m
+         <div[m
+[31m-          className={`flex items-center gap-3 rounded-2xl border bg-gray-50 px-4 py-3.5 transition focus-within:border-teal-400 focus-within:bg-white focus-within:ring-2 focus-within:ring-teal-100 ${[m
+[31m-            error[m
+[31m-              ? "border-red-300 bg-red-50"[m
+[31m-              : "border-gray-200"[m
+[32m+[m[32m          className={`flex items-center gap-2.5 rounded-2xl border bg-gray-50 px-4 py-3 transition focus-within:border-teal-400 focus-within:bg-white focus-within:ring-2 focus-within:ring-teal-100 ${[m
+[32m+[m[32m            error ? "border-red-300 bg-red-50" : "border-gray-200"[m
+           }`}[m
+         >[m
+[31m-          <FaSearch className="flex-shrink-0 text-xs text-gray-400" />[m
+[31m-[m
+[32m+[m[32m          <FaSearch className="flex-shrink-0 text-[11px] text-gray-400" />[m
+           <input[m
+             type="text"[m
+             value={reference}[m
+[31m-            onChange={(e) => {[m
+[31m-              setReference(e.target.value);[m
+[31m-              if (error) setError("");[m
+[31m-            }}[m
+[32m+[m[32m            onChange={(e) => { setReference(e.target.value); if (error) setError(""); }}[m
+             onKeyDown={handleKeyDown}[m
+             placeholder="ZS-20260705-000006"[m
+             className="w-full bg-transparent text-sm font-medium text-gray-800 placeholder-gray-400 outline-none"[m
+           />[m
+         </div>[m
+[31m-[m
+         {error && ([m
+[31m-          <p className="mt-1.5 text-xs font-medium text-red-500">[m
+[31m-            {error}[m
+[31m-    

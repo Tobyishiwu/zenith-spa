@@ -5,94 +5,102 @@ import HeroCard from "./HeroCard";
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden bg-[#F8F6F2] pt-36 pb-24">
-      {/* Soft Clean Ambient Gradients */}
-      <div className="absolute -left-24 top-24 h-96 w-96 rounded-full bg-teal-100/40 blur-3xl" />
-      <div className="absolute -right-24 bottom-12 h-[500px] w-[500px] rounded-full bg-stone-200/50 blur-3xl" />
+    <section className="relative overflow-hidden bg-[#F8F6F2] pt-24 pb-16 sm:pt-28 lg:pt-36 lg:pb-24">
 
-      <div className="relative mx-auto grid min-h-[80vh] max-w-7xl items-center gap-16 px-6 lg:grid-cols-2 lg:px-8">
-        
-        {/* LEFT COLUMN: CONTENT */}
-        <div className="flex flex-col justify-center">
-          <div>
-            <span className="inline-flex items-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 ring-1 ring-stone-200 shadow-sm">
+      {/* Ambient gradients */}
+      <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-teal-100/40 blur-3xl lg:h-96 lg:w-96" />
+      <div className="absolute -right-24 bottom-12 h-80 w-80 rounded-full bg-stone-200/50 blur-3xl lg:h-[500px] lg:w-[500px]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+
+        {/* ── DESKTOP layout: two-column grid ─────────────────────── */}
+        <div className="lg:grid lg:min-h-[80vh] lg:grid-cols-2 lg:items-center lg:gap-16">
+
+          {/* LEFT — Content */}
+          <div className="flex flex-col justify-center">
+
+            <span className="inline-flex w-fit items-center rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 ring-1 ring-stone-200 shadow-sm sm:px-5 sm:py-2">
               ✨ Premium Mobile Spa Services
             </span>
-          </div>
 
-          <h1 className="mt-8 text-5xl font-light leading-[1.1] tracking-tight text-stone-900 sm:text-6xl lg:text-7xl">
-            Wellness
-            <br />
-            Delivered
-            <br />
-            <span className="font-semibold text-teal-600">To Your Doorstep.</span>
-          </h1>
+            <h1 className="mt-6 text-4xl font-light leading-[1.1] tracking-tight text-stone-900 sm:mt-8 sm:text-5xl lg:text-6xl xl:text-7xl">
+              Wellness
+              <br />
+              Delivered
+              <br />
+              <span className="font-semibold text-teal-600">To Your Doorstep.</span>
+            </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-8 text-stone-500">
-            Experience world-class spa treatments, premium therapeutic massages, and deep somatic rejuvenation delivered safely directly to your home, hotel room, or workspace.
-          </p>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-stone-500 sm:mt-6 sm:text-base sm:leading-8">
+              Experience world-class spa treatments, premium therapeutic massages, and deep somatic rejuvenation delivered directly to your home, hotel room, or workspace.
+            </p>
 
-          {/* Social Proof & Trust Metrics */}
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs font-medium text-stone-500">
-            <div className="flex items-center gap-2">
-              <FaStar className="text-amber-400 text-sm" />
-              <span className="tracking-wide">4.9/5 Luxury Rating</span>
+            {/* Trust metrics */}
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-xs font-medium text-stone-500 sm:mt-8 sm:gap-x-6">
+              <div className="flex items-center gap-1.5">
+                <FaStar className="text-amber-400" />
+                <span>4.9 / 5 Rating</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <FaCheckCircle className="text-teal-600" />
+                <span>Certified Therapists</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <FaCheckCircle className="text-teal-600" />
+                <span>Available Daily</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <FaCheckCircle className="text-teal-600" />
-              <span>Certified Therapists</span>
+            {/* CTAs */}
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+              <Link
+                to="/booking"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-2xl bg-stone-900 px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-black hover:shadow-md sm:py-4"
+              >
+                Book Appointment
+                <FaArrowRight className="text-xs opacity-70 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+              <Link
+                to="/services"
+                className="inline-flex items-center justify-center rounded-2xl border border-stone-200 bg-white px-7 py-3.5 text-sm font-semibold text-stone-700 shadow-sm transition hover:border-stone-300 hover:bg-stone-50 sm:py-4"
+              >
+                Explore Services
+              </Link>
             </div>
 
-            <div className="flex items-center gap-2">
-              <FaCheckCircle className="text-teal-600" />
-              <span>Available Daily</span>
+            {/* Stats — desktop only, shown below CTAs */}
+            <div className="mt-10 hidden border-t border-stone-200/60 pt-8 lg:block">
+              <Stats />
             </div>
           </div>
 
-          {/* Clean Interactive Call To Actions */}
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              to="/booking"
-              className="group inline-flex items-center gap-2.5 rounded-2xl bg-stone-900 px-7 py-4 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-black hover:shadow-md"
-            >
-              Book Appointment
-              <FaArrowRight className="text-xs opacity-70 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </Link>
+          {/* RIGHT — Image + card */}
+          <div className="relative mt-10 flex justify-center lg:mt-0">
+            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none">
 
-            <Link
-              to="/services"
-              className="inline-flex items-center justify-center rounded-2xl border border-stone-200 bg-white px-7 py-4 text-sm font-semibold text-stone-700 shadow-sm transition duration-200 hover:bg-stone-50 hover:border-stone-300"
-            >
-              Explore Services
-            </Link>
+              {/* Decorative backdrop */}
+              <div className="absolute -inset-3 rounded-[48px] bg-stone-200/40 opacity-60 blur-lg" />
+
+              {/* Hero image */}
+              <img
+                src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80"
+                alt="Luxury Spa Wellness Session"
+                className="relative h-[300px] w-full rounded-3xl object-cover shadow-md ring-1 ring-stone-200/50 sm:h-[380px] lg:h-[620px] lg:rounded-[40px] xl:h-[680px]"
+              />
+
+              {/* HeroCard — overlaps bottom of image on all sizes */}
+              <div className="relative mt-[-2rem] flex justify-center lg:absolute lg:bottom-[-1.5rem] lg:left-[-1rem] lg:mt-0 lg:justify-start xl:left-[-2rem]">
+                <HeroCard />
+              </div>
+            </div>
           </div>
 
-          {/* Inline Contextual Sub-statistics Component */}
-          <div className="mt-12 border-t border-stone-200/60 pt-8">
+          {/* Stats — mobile only, shown after image+card */}
+          <div className="mt-10 border-t border-stone-200/60 pt-8 lg:hidden">
             <Stats />
           </div>
+
         </div>
-
-        {/* RIGHT COLUMN: VISUAL COMPONENT ARCHITECTURE */}
-        <div className="relative lg:mt-0 mt-12 flex items-center justify-center">
-          <div className="relative w-full max-w-lg lg:max-w-none">
-            {/* Soft decorative shadow frame back drop */}
-            <div className="absolute -inset-4 rounded-[48px] bg-stone-200/40 opacity-60 blur-lg" />
-            
-            <img
-              src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80"
-              alt="Luxury Spa Wellness Session"
-              className="relative h-[560px] lg:h-[680px] w-full rounded-[40px] object-cover bg-stone-100 shadow-md ring-1 ring-stone-200/50"
-            />
-
-            {/* Overlapping contextual absolute card panel */}
-            <div className="absolute -bottom-6 -left-6 md:left-10 transition duration-300 hover:scale-[1.02]">
-              <HeroCard />
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
   );

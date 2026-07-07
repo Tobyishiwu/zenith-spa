@@ -9,9 +9,22 @@ const usePaymentMethods = () => {
     const fetchPaymentMethods = async () => {
       try {
         const res = await api.get("/payment-methods");
-        setPaymentMethods(res.data.data);
+
+console.log("Payment API Response:", res.data);
+
+        console.log("PAYMENT RESPONSE:", res.data);
+
+const data = Array.isArray(res.data?.data)
+          ? res.data.data
+          : [];
+
+        console.log("PAYMENT RESPONSE:", res.data);
+console.log("PAYMENT STATE:", data);
+
+setPaymentMethods(data);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch payment methods:", error);
+        setPaymentMethods([]);
       } finally {
         setLoading(false);
       }
@@ -20,7 +33,13 @@ const usePaymentMethods = () => {
     fetchPaymentMethods();
   }, []);
 
-  return { paymentMethods, loading };
+  return {
+    paymentMethods,
+    loading,
+  };
 };
 
 export default usePaymentMethods;
+
+
+

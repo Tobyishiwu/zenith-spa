@@ -2,8 +2,7 @@
 import { FiSearch } from "react-icons/fi";
 import { FaArrowRight, FaClock, FaTag, FaMagic } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import useServices from "../hooks/useServices";
-
+import { services } from "../data/services";
 const SkeletonCard = () => (
   <div className="animate-pulse overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-stone-100">
     <div className="h-64 bg-stone-100" />
@@ -23,7 +22,7 @@ const SkeletonCard = () => (
 );
 
 const Services = () => {
-  const { services, loading } = useServices();
+const loading = false;
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -179,7 +178,7 @@ const Services = () => {
                           {service.name}
                         </h3>
                         <span className="text-xl font-black text-stone-900 whitespace-nowrap">
-                          ₦{(service.price || 0).toLocaleString()}
+From ${service.startingPrice}
                         </span>
                       </div>
 

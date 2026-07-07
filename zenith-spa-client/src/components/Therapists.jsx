@@ -14,6 +14,7 @@ const fallback =
 
 const Therapists = () => {
   const { therapists, loading } = useTherapists();
+  
 
   if (loading) {
     return (

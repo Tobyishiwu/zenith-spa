@@ -13,38 +13,109 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 const app = express();
 
+console.log("✅ app.js loaded");
+
+// -----------------------------------------------------------------------------
+// Paths
+// -----------------------------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// CORS Configuration
+// -----------------------------------------------------------------------------
+// CORS
+// -----------------------------------------------------------------------------
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://zenith-spa-xi.vercel.app",
+  "https://zenith-spa.vercel.app",
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin(origin, callback) {
+      // Allow requests without an Origin header (Postman, PowerShell, server-to-server)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.error(`❌ CORS Blocked: ${origin}`);
+
+      return callback(
+        new Error(`Origin ${origin} is not allowed by CORS`)
+      );
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+    ],
     credentials: false,
   })
 );
 
+// -----------------------------------------------------------------------------
+// Body Parsers
+// -----------------------------------------------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// -----------------------------------------------------------------------------
 // Static Uploads
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// -----------------------------------------------------------------------------
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
 
-// Routes
-app.use("/api/payment-methods", paymentMethodRoutes);
-app.use("/api/bookings", bookingRoutes);
-
+// -----------------------------------------------------------------------------
+// Health Check
+// -----------------------------------------------------------------------------
 app.get("/api/health", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "Zenith Spa API is running",
   });
 });
 
+// -----------------------------------------------------------------------------
+// API Routes
+// -----------------------------------------------------------------------------
 app.use("/api/auth", authRoutes);
 app.use("/api/therapists", therapistRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/api/payment-methods", paymentMethodRoutes);
+app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
+
+// -----------------------------------------------------------------------------
+// 404 Handler
+// -----------------------------------------------------------------------------
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  });
+});
+
+// -----------------------------------------------------------------------------
+// Global Error Handler
+// -----------------------------------------------------------------------------
+app.use((err, req, res, next) => {
+  console.error("🔥", err);
+
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
 
 export default app;
