@@ -1,39 +1,22 @@
+﻿import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
+import cloudinary from "../config/cloudinary.js";
 
-const uploadPath = "uploads/payments";
-
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadPath);
-  },
-
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-
-    cb(
-      null,
-      `payment-${Date.now()}-${Math.round(
-        Math.random() * 1e9
-      )}${ext}`
-    );
+// Store payment proof images permanently in Cloudinary under the "payments" folder.
+// req.file.path will contain the full Cloudinary HTTPS URL — no local disk used.
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "payments",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    transformation: [{ quality: "auto" }],
   },
 });
 
 const fileFilter = (req, file, cb) => {
   const allowed = /jpg|jpeg|png|webp/;
-
-  const ext = allowed.test(
-    path.extname(file.originalname).toLowerCase()
-  );
-
-  const mime = allowed.test(file.mimetype);
-
+  const ext = allowed.test(file.originalname.split(".").pop().toLowerCase());
+  const mime = allowed.test(file.mimetype.split("/")[1]);
   if (ext && mime) {
     cb(null, true);
   } else {
@@ -44,7 +27,5 @@ const fileFilter = (req, file, cb) => {
 export default multer({
   storage,
   fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });

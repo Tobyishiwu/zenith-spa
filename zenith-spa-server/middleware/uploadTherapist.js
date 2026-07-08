@@ -1,59 +1,31 @@
+﻿import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
+import cloudinary from "../config/cloudinary.js";
 
-// Ensure upload directory exists
-const uploadDir = "uploads/therapists";
-
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Storage Configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-
-  filename: (req, file, cb) => {
-    const uniqueName =
-      Date.now() +
-      "-" +
-      Math.round(Math.random() * 1e9) +
-      path.extname(file.originalname);
-
-    cb(null, uniqueName);
+// Store therapist images permanently in Cloudinary under the "therapists" folder.
+// req.file.path will contain the full Cloudinary HTTPS URL — no local disk used.
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "therapists",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    transformation: [{ width: 800, height: 800, crop: "limit", quality: "auto" }],
   },
 });
 
-// File Filter
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
-  ];
-
-  if (allowedTypes.includes(file.mimetype)) {
+  const allowed = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+  if (allowed.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(
-      new Error(
-        "Only JPG, JPEG, PNG and WEBP images are allowed."
-      ),
-      false
-    );
+    cb(new Error("Only JPG, JPEG, PNG and WEBP images are allowed."), false);
   }
 };
 
-// Multer Instance
 const uploadTherapist = multer({
   storage,
   fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
 export default uploadTherapist;

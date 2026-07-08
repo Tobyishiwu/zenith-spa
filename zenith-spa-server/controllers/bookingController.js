@@ -1,4 +1,4 @@
-import path from "path";
+﻿import path from "path";
 import fs from "fs";
 import mongoose from "mongoose";
 import Booking from "../models/Booking.js";
@@ -6,7 +6,7 @@ import Service from "../models/Service.js";
 import { generateBookingPDF } from "../utils/generateBookingPDF.js";
 import { sendBookingConfirmationEmail } from "../utils/sendBookingConfirmationEmail.js";
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -17,7 +17,7 @@ const POPULATE = {
   paymentMethod: "name accountName accountDetails qrCode",
 };
 
-// ─── Response Helpers ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Response Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const sendSuccess = (res, statusCode, payload) =>
   res.status(statusCode).json({ success: true, ...payload });
@@ -25,7 +25,7 @@ const sendSuccess = (res, statusCode, payload) =>
 const sendError = (res, statusCode, message) =>
   res.status(statusCode).json({ success: false, message });
 
-// ─── Query Helpers ────────────────────────────────────────────────────────────
+// â”€â”€â”€ Query Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Builds a MongoDB filter from getBookings query params.
@@ -132,7 +132,7 @@ const generateBookingReference = async () => {
   return fallback;
 };
 
-// ─── GET ALL BOOKINGS ─────────────────────────────────────────────────────────
+// â”€â”€â”€ GET ALL BOOKINGS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const getBookings = async (req, res) => {
   try {
@@ -197,7 +197,7 @@ export const getBookings = async (req, res) => {
   }
 };
 
-// ─── GET SINGLE BOOKING ───────────────────────────────────────────────────────
+// â”€â”€â”€ GET SINGLE BOOKING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const getBookingById = async (req, res) => {
   try {
@@ -224,7 +224,7 @@ export const getBookingById = async (req, res) => {
   }
 };
 
-// ─── GET BOOKING BY REFERENCE ─────────────────────────────────────────────────
+// â”€â”€â”€ GET BOOKING BY REFERENCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const getBookingByReference = async (req, res) => {
   try {
@@ -253,7 +253,7 @@ export const getBookingByReference = async (req, res) => {
   }
 };
 
-// ─── CREATE BOOKING ───────────────────────────────────────────────────────────
+// â”€â”€â”€ CREATE BOOKING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const createBooking = async (req, res) => {
   try {
@@ -314,7 +314,7 @@ export const createBooking = async (req, res) => {
       return sendError(res, 400, "Booking date cannot be in the past.");
     }
 
-    // Fetch service to obtain price — lean() is safe here since we only read
+    // Fetch service to obtain price â€” lean() is safe here since we only read
     const service = await Service.findById(serviceId).select("price").lean();
     if (!service) {
       return sendError(res, 404, "Service not found.");
@@ -339,7 +339,7 @@ export const createBooking = async (req, res) => {
       bookingStatus: "Pending",
     });
 
-    // Read the populated result with lean() — no further modifications needed
+    // Read the populated result with lean() â€” no further modifications needed
     const populatedBooking = await Booking.findById(booking._id)
       .populate("therapist", POPULATE.therapist)
       .populate("service", POPULATE.service)
@@ -356,7 +356,7 @@ export const createBooking = async (req, res) => {
   }
 };
 
-// ─── UPDATE BOOKING ───────────────────────────────────────────────────────────
+// â”€â”€â”€ UPDATE BOOKING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const updateBooking = async (req, res) => {
   try {
@@ -397,7 +397,7 @@ export const updateBooking = async (req, res) => {
   }
 };
 
-// ─── UPLOAD PAYMENT PROOF ─────────────────────────────────────────────────────
+// â”€â”€â”€ UPLOAD PAYMENT PROOF â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const uploadPaymentProof = async (req, res) => {
   try {
@@ -423,7 +423,7 @@ export const uploadPaymentProof = async (req, res) => {
       return sendError(res, 400, "File size exceeds the 5MB limit.");
     }
 
-    // Document will be modified — do not use lean()
+    // Document will be modified â€” do not use lean()
     const booking = await Booking.findById(id);
 
     if (!booking) {
@@ -434,7 +434,7 @@ export const uploadPaymentProof = async (req, res) => {
       return sendError(res, 409, "Payment has already been verified for this booking.");
     }
 
-    booking.paymentProof = `/uploads/payments/${req.file.filename}`;
+    booking.paymentProof = req.file.path;
     booking.paymentStatus = "Pending Verification";
     booking.paidAt = new Date();
 
@@ -456,7 +456,7 @@ export const uploadPaymentProof = async (req, res) => {
   }
 };
 
-// ─── APPROVE PAYMENT ──────────────────────────────────────────────────────────
+// â”€â”€â”€ APPROVE PAYMENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const approvePayment = async (req, res) => {
   try {
@@ -466,7 +466,7 @@ export const approvePayment = async (req, res) => {
       return sendError(res, 400, "Invalid booking ID.");
     }
 
-    // Document will be modified — do not use lean()
+    // Document will be modified â€” do not use lean()
     let booking = await Booking.findById(id)
       .populate("therapist", POPULATE.therapist)
       .populate("service", POPULATE.service)
@@ -501,7 +501,7 @@ export const approvePayment = async (req, res) => {
       .populate("paymentMethod", POPULATE.paymentMethod)
       .lean();
 
-    // Generate confirmation PDF — non-blocking: log failure, do not crash
+    // Generate confirmation PDF â€” non-blocking: log failure, do not crash
     let pdfRelativePath = null;
     try {
       const pdf = await generateBookingPDF(booking);
@@ -514,7 +514,7 @@ export const approvePayment = async (req, res) => {
       console.error("[approvePayment] PDF generation failed:", pdfErr);
     }
 
-    // Send confirmation email — non-blocking: log failure, do not crash
+    // Send confirmation email â€” non-blocking: log failure, do not crash
     try {
       await sendBookingConfirmationEmail({
         booking,
@@ -534,7 +534,7 @@ export const approvePayment = async (req, res) => {
   }
 };
 
-// ─── DELETE BOOKING ───────────────────────────────────────────────────────────
+// â”€â”€â”€ DELETE BOOKING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const deleteBooking = async (req, res) => {
   try {
@@ -559,7 +559,7 @@ export const deleteBooking = async (req, res) => {
   }
 };
 
-// ─── GET DASHBOARD STATS ──────────────────────────────────────────────────────
+// â”€â”€â”€ GET DASHBOARD STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const getDashboardStats = async (req, res) => {
   try {
@@ -618,7 +618,7 @@ export const getDashboardStats = async (req, res) => {
     return sendError(res, 500, "Could not load dashboard. Please try again.");
   }
 };
-// ─── REJECT PAYMENT ───────────────────────────────────────────────────────────
+// â”€â”€â”€ REJECT PAYMENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const rejectPayment = async (req, res) => {
   try {
@@ -670,7 +670,7 @@ export const rejectPayment = async (req, res) => {
   }
 };
 
-// ─── DOWNLOAD CONFIRMATION PDF ───────────────────────────────────────────────
+// â”€â”€â”€ DOWNLOAD CONFIRMATION PDF â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const downloadBookingConfirmation = async (req, res) => {
   try {
