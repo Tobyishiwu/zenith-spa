@@ -27,49 +27,44 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
-
   "https://zenithspa.online",
   "https://www.zenithspa.online",
-
   "https://zenith-spa-xi.vercel.app",
   "https://zenith-spa.vercel.app",
 ];
 
-console.log("✅ Allowed Origins:");
-console.table(allowedOrigins);
+console.log("=================================");
+console.log("Allowed Origins:");
+console.log(allowedOrigins);
+console.log("=================================");
 
 app.use(
   cors({
     origin(origin, callback) {
-      console.log("Incoming Origin:", origin);
+      console.log("Incoming Origin:", JSON.stringify(origin));
 
       if (!origin) {
         return callback(null, true);
       }
 
-      if (allowedOrigins.includes(origin.trim())) {
-        console.log("✅ Origin Allowed");
+      const normalizedOrigin = origin.trim();
+
+      console.log(
+        "Match:",
+        allowedOrigins.includes(normalizedOrigin)
+      );
+
+      if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
 
-      console.log("❌ Allowed Origins:", allowedOrigins);
-      console.error(`❌ CORS Blocked: ${origin}`);
+      console.log("Allowed List:", allowedOrigins);
 
       return callback(
-        new Error(`Origin ${origin} is not allowed by CORS`)
+        new Error(`Origin ${normalizedOrigin} is not allowed by CORS`)
       );
     },
-
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "Authorization",
-    ],
-
     credentials: false,
   })
 );
