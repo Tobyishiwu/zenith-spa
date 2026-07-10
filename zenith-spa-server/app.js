@@ -27,6 +27,12 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
+
+  // Production
+  "https://zenithspa.online",
+  "https://www.zenithspa.online",
+
+  // Old Vercel URLs (keep temporarily)
   "https://zenith-spa-xi.vercel.app",
   "https://zenith-spa.vercel.app",
 ];
