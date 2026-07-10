@@ -438,8 +438,13 @@ export const uploadPaymentProof = async (req, res) => {
     booking.paymentStatus = "Pending Verification";
     booking.paidAt = new Date();
 
+    console.log("Before save:", {
+  paymentProof: booking.paymentProof,
+  paymentStatus: booking.paymentStatus,
+});
     await booking.save();
 
+    
     const updatedBooking = await Booking.findById(booking._id)
       .populate("therapist", POPULATE.therapist)
       .populate("service", POPULATE.service)

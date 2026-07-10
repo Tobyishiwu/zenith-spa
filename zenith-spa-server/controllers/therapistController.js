@@ -99,8 +99,15 @@ export const updateTherapist = async (req, res) => {
       therapist.image = req.file.path;
     }
 
+    console.log("\n========== THERAPIST UPLOAD ==========");
+console.dir(req.file, { depth: null });
+console.log("req.file.path:", req.file?.path);
+console.log("======================================\n");
     await therapist.save();
 
+    const saved = await Therapist.findById(therapist._id).lean();
+
+console.log("Saved therapist image:", saved.image);
     res.status(200).json({
       success: true,
       message: "Therapist updated successfully.",

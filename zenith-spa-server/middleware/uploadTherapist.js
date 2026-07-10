@@ -28,4 +28,17 @@ const uploadTherapist = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-export default uploadTherapist;
+const uploadTherapistWithLog = (req, res, next) => {
+  uploadTherapist.single("image")(req, res, (err) => {
+    console.log("=== UPLOAD MIDDLEWARE ===");
+    console.log("Content-Type:", req.headers["content-type"]);
+    console.log("req.file:", req.file);
+    console.log("req.body keys:", Object.keys(req.body || {}));
+    console.log("err:", err);
+    console.log("========================");
+    if (err) return next(err);
+    next();
+  });
+};
+export default { single: () => uploadTherapistWithLog };
+

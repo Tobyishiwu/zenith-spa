@@ -34,7 +34,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow requests without an Origin header (Postman, PowerShell, server-to-server)
       if (!origin) {
         return callback(null, true);
       }
@@ -44,10 +43,7 @@ app.use(
       }
 
       console.error(`❌ CORS Blocked: ${origin}`);
-
-      return callback(
-        new Error(`Origin ${origin} is not allowed by CORS`)
-      );
+      return callback(new Error(`Origin ${origin} is not allowed by CORS`));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -110,12 +106,33 @@ app.use((req, res) => {
 // Global Error Handler
 // -----------------------------------------------------------------------------
 app.use((err, req, res, next) => {
-  console.error("🔥", err);
+  console.error("\n================ SERVER ERROR ================");
+  console.error("Time:", new Date().toISOString());
+  console.error("Route:", req.method, req.originalUrl);
+  console.error("Name:", err.name);
+  console.error("Message:", err.message);
+
+  if (err.stack) {
+    console.error(err.stack);
+  }
+
+  console.error("==============================================\n");
 
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal Server Error",
+    error:
+      process.env.NODE_ENV === "development"
+        ? {
+            name: err.name,
+            message: err.message,
+            stack: err.stack,
+          }
+        : undefined,
   });
 });
 
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 export default app;
