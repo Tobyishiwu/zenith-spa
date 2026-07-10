@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,15 +15,11 @@ const app = express();
 
 console.log("✅ app.js loaded");
 
-// -----------------------------------------------------------------------------
-// Paths
-// -----------------------------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// -----------------------------------------------------------------------------
-// CORS
-// -----------------------------------------------------------------------------
+// ─── CORS ────────────────────────────────────────────────────────────────────
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
@@ -33,55 +29,18 @@ const allowedOrigins = [
   "https://zenith-spa.vercel.app",
 ];
 
-console.log("=================================");
-console.log("Allowed Origins:");
-console.log(allowedOrigins);
-console.log("=================================");
-
 app.use(
   cors({
     origin(origin, callback) {
       console.log("Incoming Origin:", JSON.stringify(origin));
-
-      if (!origin) {
+      if (!origin) return callback(null, true);
+      const normalized = origin.trim();
+      if (allowedOrigins.includes(normalized)) {
+        console.log("✅ CORS Allowed:", normalized);
         return callback(null, true);
       }
-
-      const normalizedOrigin = origin.trim();
-
-      console.log(
-        "Match:",
-        allowedOrigins.includes(normalizedOrigin)
-      );
-
-      if (allowedOrigins.includes(normalizedOrigin)) {
-        return callback(null, true);
-      }
-
-      console.log("Allowed List:", allowedOrigins);
-
-      return callback(
-        new Error(`Origin ${normalizedOrigin} is not allowed by CORS`)
-      );
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    credentials: false,
-  })
-);
-
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      console.error(`❌ CORS Blocked: ${origin}`);
-      return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+      console.error("❌ CORS Blocked:", normalized);
+      return callback(new Error(`Origin ${normalized} is not allowed by CORS`));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -95,33 +54,26 @@ app.use(
   })
 );
 
-// -----------------------------------------------------------------------------
-// Body Parsers
-// -----------------------------------------------------------------------------
+// Handle OPTIONS preflight explicitly
+app.options("*", cors());
+
+// ─── Body Parsers ────────────────────────────────────────────────────────────
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// -----------------------------------------------------------------------------
-// Static Uploads
-// -----------------------------------------------------------------------------
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "uploads"))
-);
+// ─── Static Uploads ──────────────────────────────────────────────────────────
 
-// -----------------------------------------------------------------------------
-// Health Check
-// -----------------------------------------------------------------------------
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// ─── Health Check ────────────────────────────────────────────────────────────
+
 app.get("/api/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Zenith Spa API is running",
-  });
+  res.status(200).json({ success: true, message: "Zenith Spa API is running" });
 });
 
-// -----------------------------------------------------------------------------
-// API Routes
-// -----------------------------------------------------------------------------
+// ─── API Routes ──────────────────────────────────────────────────────────────
+
 app.use("/api/auth", authRoutes);
 app.use("/api/therapists", therapistRoutes);
 app.use("/api/services", serviceRoutes);
@@ -130,47 +82,29 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
 
-// -----------------------------------------------------------------------------
-// 404 Handler
-// -----------------------------------------------------------------------------
+// ─── 404 Handler ─────────────────────────────────────────────────────────────
+
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`,
-  });
+  res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
 });
 
-// -----------------------------------------------------------------------------
-// Global Error Handler
-// -----------------------------------------------------------------------------
+// ─── Global Error Handler ────────────────────────────────────────────────────
+
 app.use((err, req, res, next) => {
   console.error("\n================ SERVER ERROR ================");
   console.error("Time:", new Date().toISOString());
   console.error("Route:", req.method, req.originalUrl);
   console.error("Name:", err.name);
   console.error("Message:", err.message);
-
-  if (err.stack) {
-    console.error(err.stack);
-  }
-
+  if (err.stack) console.error(err.stack);
   console.error("==============================================\n");
-
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal Server Error",
-    error:
-      process.env.NODE_ENV === "development"
-        ? {
-            name: err.name,
-            message: err.message,
-            stack: err.stack,
-          }
-        : undefined,
+    error: process.env.NODE_ENV === "development"
+      ? { name: err.name, message: err.message, stack: err.stack }
+      : undefined,
   });
 });
 
-// -----------------------------------------------------------------------------
-// Export
-// -----------------------------------------------------------------------------
 export default app;
