@@ -18,61 +18,83 @@ console.log("✅ app.js loaded");
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ─── CORS ────────────────────────────────────────────────────────────────────
+/* ==========================================================================
+   CORS
+   ========================================================================== */
 
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
   "https://zenithspa.online",
   "https://www.zenithspa.online",
-  "https://zenith-spa-xi.vercel.app",
   "https://zenith-spa.vercel.app",
+  "https://zenith-spa-xi.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin(origin, callback) {
-      console.log("Incoming Origin:", JSON.stringify(origin));
-      if (!origin) return callback(null, true);
-      const normalized = origin.trim();
-      if (allowedOrigins.includes(normalized)) {
-        console.log("✅ CORS Allowed:", normalized);
-        return callback(null, true);
-      }
-      console.error("❌ CORS Blocked:", normalized);
-      return callback(new Error(`Origin ${normalized} is not allowed by CORS`));
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "Authorization",
-    ],
-    credentials: false,
-  })
-);
+const corsOptions = {
+  origin(origin, callback) {
+    console.log("🌍 Incoming Origin:", origin);
 
-// Handle OPTIONS preflight explicitly
-app.options("*", cors());
+    // Allow requests from Postman, Render health checks, mobile apps, etc.
+    if (!origin) {
+      return callback(null, true);
+    }
 
-// ─── Body Parsers ────────────────────────────────────────────────────────────
+    if (allowedOrigins.includes(origin)) {
+      console.log("✅ CORS Allowed:", origin);
+      return callback(null, true);
+    }
+
+    console.error("❌ CORS Blocked:", origin);
+
+    return callback(
+      new Error(`Origin ${origin} is not allowed by CORS`)
+    );
+  },
+
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+  ],
+
+  credentials: false,
+};
+
+app.use(cors(corsOptions));
+
+/* ==========================================================================
+   BODY PARSERS
+   ========================================================================== */
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ─── Static Uploads ──────────────────────────────────────────────────────────
+/* ==========================================================================
+   STATIC FILES
+   ========================================================================== */
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ─── Health Check ────────────────────────────────────────────────────────────
+/* ==========================================================================
+   HEALTH CHECK
+   ========================================================================== */
 
 app.get("/api/health", (req, res) => {
-  res.status(200).json({ success: true, message: "Zenith Spa API is running" });
+  res.status(200).json({
+    success: true,
+    message: "Zenith Spa API is running",
+    timestamp: new Date().toISOString(),
+  });
 });
 
-// ─── API Routes ──────────────────────────────────────────────────────────────
+/* ==========================================================================
+   API ROUTES
+   ========================================================================== */
 
 app.use("/api/auth", authRoutes);
 app.use("/api/therapists", therapistRoutes);
@@ -82,28 +104,45 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
 
-// ─── 404 Handler ─────────────────────────────────────────────────────────────
+/* ==========================================================================
+   404 HANDLER
+   ========================================================================== */
 
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  });
 });
 
-// ─── Global Error Handler ────────────────────────────────────────────────────
+/* ==========================================================================
+   GLOBAL ERROR HANDLER
+   ========================================================================== */
 
 app.use((err, req, res, next) => {
   console.error("\n================ SERVER ERROR ================");
   console.error("Time:", new Date().toISOString());
-  console.error("Route:", req.method, req.originalUrl);
+  console.error("Method:", req.method);
+  console.error("Route:", req.originalUrl);
   console.error("Name:", err.name);
   console.error("Message:", err.message);
-  if (err.stack) console.error(err.stack);
+
+  if (err.stack) {
+    console.error(err.stack);
+  }
+
   console.error("==============================================\n");
+
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal Server Error",
-    error: process.env.NODE_ENV === "development"
-      ? { name: err.name, message: err.message, stack: err.stack }
-      : undefined,
+    ...(process.env.NODE_ENV === "development" && {
+      error: {
+        name: err.name,
+        message: err.message,
+        stack: err.stack,
+      },
+    }),
   });
 });
 
