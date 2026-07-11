@@ -1,39 +1,13 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import fs from "fs";
 import path from "path";
 
-// -----------------------------------------------------------------------------
-// SMTP Transport
-// -----------------------------------------------------------------------------
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // TLS via STARTTLS
-  requireTLS: true,
-
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-});
-
-// Verify SMTP connection once when the server starts
-transporter.verify((error) => {
-  if (error) {
-    console.error("❌ SMTP Connection Failed");
-    console.error(error);
-  } else {
-    console.log("✅ SMTP Server Ready");
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // -----------------------------------------------------------------------------
 // Load HTML Template
 // -----------------------------------------------------------------------------
+
 const loadTemplate = () => {
   const templatePath = path.join(
     process.cwd(),
@@ -42,9 +16,7 @@ const loadTemplate = () => {
   );
 
   if (!fs.existsSync(templatePath)) {
-    throw new Error(
-      `Email template not found: ${templatePath}`
-    );
+    throw new Error(`Email template not found: ${templatePath}`);
   }
 
   return fs.readFileSync(templatePath, "utf8");
@@ -53,6 +25,7 @@ const loadTemplate = () => {
 // -----------------------------------------------------------------------------
 // Replace Template Variables
 // -----------------------------------------------------------------------------
+
 const replace = (html, key, value) => {
   return html.replace(
     new RegExp(`{{${key}}}`, "g"),
@@ -63,6 +36,7 @@ const replace = (html, key, value) => {
 // -----------------------------------------------------------------------------
 // Send Booking Confirmation Email
 // -----------------------------------------------------------------------------
+
 export const sendBookingConfirmationEmail = async ({
   booking,
   pdfPath,
@@ -119,18 +93,18 @@ export const sendBookingConfirmationEmail = async ({
       downloadLink
     );
 
-    const info = await transporter.sendMail({
-      from: `"Zenith Spa" <${process.env.EMAIL_USER}>`,
+    const response = await resend.emails.send({
+      from: process.env.EMAIL_FROM,
       to: booking.email,
       subject: "Your Zenith Spa Appointment Has Been Confirmed",
       html,
     });
 
     console.log("✅ Email sent successfully");
-    console.log("Message ID:", info.messageId);
+    console.log(response);
     console.log("===============================\n");
 
-    return info;
+    return response;
   } catch (error) {
     console.error("\n❌ EMAIL SEND FAILED");
     console.error(error);
