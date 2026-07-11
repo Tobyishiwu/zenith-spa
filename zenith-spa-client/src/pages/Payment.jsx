@@ -1,4 +1,3 @@
-
 import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -116,10 +115,9 @@ const Payment = () => {
   if (loading) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <div className="flex flex-col items-center gap-4">
-          <FaSpinner className="animate-spin text-4xl text-teal-700" />
-          <p className="text-lg font-semibold text-gray-600">Loading payment details…</p>
-        </div>
+        <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 animate-pulse">
+          Loading payment details…
+        </p>
       </section>
     );
   }
@@ -127,13 +125,15 @@ const Payment = () => {
   if (!booking) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <div className="rounded-3xl bg-white p-12 text-center shadow-xl">
-          <FaTimesCircle className="mx-auto mb-4 text-5xl text-red-400" />
-          <h2 className="text-2xl font-bold text-gray-800">Booking not found.</h2>
-          <p className="mt-2 text-gray-500">Please return to the home page and try again.</p>
+        <div className="rounded-2xl border border-stone-200/40 bg-white p-10 text-center max-w-sm mx-6 shadow-xs">
+          <FaTimesCircle className="mx-auto mb-4 text-3xl text-red-400" />
+          <h2 className="text-xl font-light tracking-tight text-stone-900">Booking not found</h2>
+          <p className="mt-2 text-xs font-light text-stone-500 leading-5">
+            Please return to the home page and try initiating your booking sequence again.
+          </p>
           <button
             onClick={() => navigate("/")}
-            className="mt-6 rounded-2xl bg-teal-700 px-8 py-3 font-bold text-white transition hover:bg-teal-800"
+            className="mt-6 rounded-xl bg-stone-900 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition hover:bg-black"
           >
             Return Home
           </button>
@@ -146,57 +146,56 @@ const Payment = () => {
 
   if (submitted) {
     return (
-      <section className="min-h-screen bg-[#FAF9F6] pt-32 pb-24">
-        <div className="mx-auto max-w-2xl px-6">
-          <div className="rounded-3xl bg-white p-10 text-center shadow-2xl">
+      <section className="min-h-screen bg-[#FAF9F6] antialiased pt-36 pb-24">
+        <div className="mx-auto max-w-xl px-6">
+          <div className="rounded-2xl border border-stone-200/40 bg-white p-8 text-center shadow-xs">
 
-            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100">
-              <FaCheckCircle className="text-5xl text-green-500" />
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+              <FaCheckCircle size={20} />
             </div>
 
-            <h1 className="text-3xl font-black text-gray-900">
+            <h1 className="text-2xl font-light tracking-tight text-stone-900">
               Payment Submitted Successfully
             </h1>
-            <p className="mt-4 text-gray-500 leading-relaxed">
-              Thank you. We've received your payment receipt. Our team is reviewing it.
-              Verification usually takes 5–15 minutes.
+            <p className="mt-3 text-xs font-light text-stone-500 leading-5 max-w-sm mx-auto">
+              Thank you. We have received your payment receipt. Our concierge team is validating your allocation transfer, which typically takes 5–15 minutes.
             </p>
 
-            <div className="my-8 space-y-3 rounded-2xl bg-gray-50 p-6 text-left">
+            <div className="my-6 space-y-3 rounded-xl border border-stone-200/40 bg-stone-50/50 p-5 text-left">
               <SuccessRow label="Booking Reference" value={booking.bookingReference || booking._id} />
               <SuccessRow label="Therapist" value={booking.therapist?.name} />
               <SuccessRow label="Service" value={booking.service?.name} />
               <SuccessRow label="Amount" value={`$${booking.totalAmount}`} />
               <SuccessRow label="Payment Method" value={payment?.name} />
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-sm text-gray-500">Payment Status</span>
-                <span className="rounded-full bg-amber-100 px-4 py-1 text-sm font-semibold text-amber-700">
+              <div className="flex items-center justify-between pt-2 border-t border-stone-200/40">
+                <span className="text-xs font-light text-stone-500">Payment Status</span>
+                <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-700 ring-1 ring-amber-200/50">
                   Pending Verification
                 </span>
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
               <button
                 onClick={() => navigate("/")}
-                className="flex items-center justify-center gap-2 rounded-2xl border-2 border-teal-700 px-8 py-4 font-bold text-teal-700 transition hover:bg-teal-50"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-stone-200/80 bg-white px-6 py-3 text-xs font-semibold uppercase tracking-wider text-stone-600 shadow-xs transition hover:bg-stone-50"
               >
-                <FaHome />
+                <FaHome size={11} />
                 Return Home
               </button>
               <button
-  onClick={() =>
-    navigate(
-      `/track-booking?ref=${encodeURIComponent(
-        booking.bookingReference || booking._id
-      )}`
-    )
-  }
-  className="flex items-center justify-center gap-2 rounded-2xl bg-teal-700 px-8 py-4 font-bold text-white shadow-lg transition hover:bg-teal-800 hover:shadow-xl"
->
-  <FaSearch />
-  Track Booking
-</button>
+                onClick={() =>
+                  navigate(
+                    `/track-booking?ref=${encodeURIComponent(
+                      booking.bookingReference || booking._id
+                    )}`
+                  )
+                }
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-teal-600 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition hover:bg-teal-700"
+              >
+                <FaSearch size={11} />
+                Track Booking
+              </button>
             </div>
 
           </div>
@@ -206,31 +205,31 @@ const Payment = () => {
   }
 
   return (
-    <section className="min-h-screen bg-[#FAF9F6] pt-32 pb-24">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="min-h-screen bg-[#FAF9F6] text-stone-800 antialiased pt-36 pb-24">
+      <div className="mx-auto max-w-5xl px-6">
 
         {/* Header */}
-        <div className="mb-12 text-center">
-          <span className="font-semibold uppercase tracking-[4px] text-teal-700">
+        <div className="mb-14 text-center">
+          <span className="inline-flex items-center rounded-full bg-stone-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500">
             Complete Payment
           </span>
-          <h1 className="mt-4 text-4xl font-black text-gray-900 md:text-5xl">
+          <h1 className="mt-4 text-3xl font-light tracking-tight text-stone-900 sm:text-4xl">
             Secure Your Appointment
           </h1>
-          <p className="mt-3 text-gray-500">
-            Send payment and upload your receipt to confirm your booking.
+          <p className="mt-3 text-xs font-light leading-5 text-stone-500 max-w-sm mx-auto">
+            Send payment and upload your system transmission receipt to confirm your booking.
           </p>
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
 
           {/* LEFT COLUMN */}
-          <div className="space-y-8">
+          <div className="space-y-6">
 
             {/* Booking Summary */}
-            <div className="rounded-3xl bg-white p-8 shadow-lg">
-              <h2 className="mb-6 text-2xl font-bold text-gray-900">Booking Summary</h2>
-              <div className="space-y-4">
+            <div className="rounded-2xl border border-stone-200/40 bg-white p-6 shadow-xs">
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-stone-900">Booking Summary</h2>
+              <div className="space-y-3.5">
                 <SummaryRow label="Therapist" value={booking.therapist?.name} />
                 <SummaryRow label="Service" value={booking.service?.name} />
                 <SummaryRow
@@ -253,79 +252,79 @@ const Payment = () => {
                   mono
                 />
               </div>
-              <hr className="my-6 border-gray-100" />
+              <hr className="my-5 border-stone-100" />
               <div className="flex items-center justify-between">
-                <span className="text-xl font-bold text-gray-900">Total</span>
-                <span className="text-2xl font-black text-teal-700">
+                <span className="text-sm font-medium text-stone-900">Total</span>
+                <span className="text-xl font-light text-teal-600">
                   ${booking.totalAmount}
                 </span>
               </div>
-              <div className="mt-4 flex items-center justify-between">
-                <span className="text-sm text-gray-500">Payment Status</span>
-                <span className="rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-700">
+              <div className="mt-4 flex items-center justify-between pt-3 border-t border-stone-100">
+                <span className="text-xs font-light text-stone-500">Payment Status</span>
+                <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-700 ring-1 ring-amber-200/50">
                   Awaiting Payment
                 </span>
               </div>
             </div>
 
             {/* Payment Method Card */}
-            <div className="rounded-3xl bg-white p-8 shadow-lg">
-              <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-900">
-                <FaMoneyBillWave className="text-teal-600" />
+            <div className="rounded-2xl border border-stone-200/40 bg-white p-6 shadow-xs">
+              <h2 className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-900">
+                <FaMoneyBillWave className="text-teal-600" size={13} />
                 Payment Method
               </h2>
 
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-4">
                 {payment?.icon && (
                   <img
                     src={payment.icon}
                     alt={payment.name}
-                    className="h-14 w-14 rounded-xl object-contain"
+                    className="h-10 w-10 rounded-lg object-contain bg-stone-50 p-1 border border-stone-200/40"
                   />
                 )}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">{payment?.name}</h3>
+                  <h3 className="text-sm font-medium tracking-tight text-stone-900">{payment?.name}</h3>
                   {payment?.network && (
-                    <p className="text-sm text-gray-500">{payment.network}</p>
+                    <p className="text-xs text-stone-400">{payment.network}</p>
                   )}
                 </div>
               </div>
 
               {payment?.accountName && (
-                <div className="mt-6 rounded-2xl bg-gray-50 px-5 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <div className="mt-4 rounded-xl bg-stone-50/50 border border-stone-200/40 px-4 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">
                     Account Name
                   </p>
-                  <p className="mt-1 font-semibold text-gray-800">{payment.accountName}</p>
+                  <p className="mt-0.5 text-xs font-medium text-stone-800">{payment.accountName}</p>
                 </div>
               )}
 
               {payment?.accountDetails && (
-                <div className="mt-4 rounded-2xl bg-gray-50 p-5">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <div className="mt-3 rounded-xl bg-stone-50/50 border border-stone-200/40 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">
                     Wallet / Address
                   </p>
-                  <p className="mt-2 break-all font-mono text-sm font-semibold text-gray-800">
+                  <p className="mt-1.5 break-all font-mono text-xs font-medium text-stone-800 tracking-wide select-all">
                     {payment.accountDetails}
                   </p>
                   <button
                     onClick={handleCopy}
-                    className={`mt-4 flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
+                    className={`mt-4 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
                       copied
-                        ? "bg-green-600 text-white"
-                        : "bg-teal-700 text-white hover:bg-teal-800"
+                        ? "bg-emerald-600 text-white"
+                        : "bg-stone-900 text-white hover:bg-black"
                     }`}
                   >
-                    <FaCopy />
+                    <FaCopy size={11} />
                     {copied ? "Copied!" : "Copy Address"}
                   </button>
                 </div>
               )}
 
               {payment?.instructions && (
-                <div className="mt-6 rounded-2xl border-l-4 border-teal-600 bg-teal-50 p-5">
-                  <p className="text-sm font-bold text-teal-800">Instructions</p>
-                  <p className="mt-2 text-sm leading-relaxed text-teal-700">
+                <div className="mt-4 rounded-xl border-l-2 border-teal-500 bg-teal-50/20 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">Instructions</p>
+                  <p className="mt-1 text-xs leading-5 text-teal-700 font-light">
                     {payment.instructions}
                   </p>
                 </div>
@@ -335,14 +334,13 @@ const Payment = () => {
           </div>
 
           {/* RIGHT COLUMN */}
-          <div className="rounded-3xl bg-white p-8 shadow-lg">
-
-            <h2 className="mb-2 flex items-center gap-3 text-2xl font-bold text-gray-900">
-              <FaUpload className="text-teal-600" />
+          <div className="rounded-2xl border border-stone-200/40 bg-white p-6 shadow-xs">
+            <h2 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-900">
+              <FaUpload className="text-teal-600" size={13} />
               Upload Payment Receipt
             </h2>
-            <p className="mb-8 text-sm text-gray-500">
-              Upload proof of payment to confirm your booking.
+            <p className="mt-1 mb-6 text-xs font-light text-stone-500">
+              Upload proof of payment to queue your service dispatch.
             </p>
 
             {!preview ? (
@@ -351,46 +349,46 @@ const Payment = () => {
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onClick={() => fileInputRef.current?.click()}
-                className={`flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed px-8 py-16 text-center transition-all duration-200 ${
+                className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed p-10 text-center transition-all duration-200 ${
                   dragOver
-                    ? "border-teal-500 bg-teal-50"
-                    : "border-gray-200 bg-gray-50 hover:border-teal-400 hover:bg-teal-50/40"
+                    ? "border-teal-500 bg-teal-50/30"
+                    : "border-stone-200/80 bg-stone-50/30 hover:border-teal-400 hover:bg-teal-50/10"
                 }`}
               >
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-100">
-                  <FaFileImage className="text-3xl text-teal-600" />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-stone-50 border border-stone-200/40 text-stone-400">
+                  <FaFileImage size={14} />
                 </div>
-                <p className="text-base font-semibold text-gray-700">
-                  Drag & Drop your receipt here
+                <p className="text-xs font-medium text-stone-700">
+                  Drag & drop your receipt here
                 </p>
-                <p className="mt-1 text-sm text-gray-400">or click to browse</p>
-                <div className="mt-6 flex gap-2">
+                <p className="mt-0.5 text-[11px] text-stone-400">or click to browse local files</p>
+                <div className="mt-4 flex gap-1.5">
                   {["JPG", "PNG", "WEBP"].map((ext) => (
                     <span
                       key={ext}
-                      className="rounded-lg bg-white px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm"
+                      className="rounded-md border border-stone-200/60 bg-white px-2 py-0.5 text-[9px] font-medium text-stone-500"
                     >
                       {ext}
                     </span>
                   ))}
                 </div>
-                <p className="mt-3 text-xs text-gray-400">Maximum file size: 5MB</p>
+                <p className="mt-2 text-[10px] text-stone-400 font-light">Maximum parameters: 5MB</p>
               </div>
             ) : (
-              <div className="space-y-5">
-                <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+              <div className="space-y-4">
+                <div className="overflow-hidden rounded-xl border border-stone-200/40 bg-stone-50 p-2 shadow-2xs">
                   <img
                     src={preview}
                     alt="Receipt preview"
-                    className="h-72 w-full object-cover"
+                    className="h-56 w-full rounded-lg object-cover"
                   />
                 </div>
-                <div className="flex items-center justify-between rounded-2xl bg-gray-50 px-5 py-4">
-                  <div>
-                    <p className="text-sm font-semibold text-gray-800 break-all">
+                <div className="flex items-center justify-between rounded-xl border border-stone-200/40 bg-stone-50/60 px-4 py-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-stone-800 truncate">
                       {selectedFile?.name}
                     </p>
-                    <p className="mt-0.5 text-xs text-gray-400">
+                    <p className="text-[10px] text-stone-400 font-light mt-0.5">
                       {formatBytes(selectedFile?.size || 0)}
                     </p>
                   </div>
@@ -402,9 +400,9 @@ const Payment = () => {
                       setUploadError("");
                       if (fileInputRef.current) fileInputRef.current.value = "";
                     }}
-                    className="ml-4 flex-shrink-0 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-600 shadow-sm transition hover:bg-gray-100"
+                    className="ml-4 flex-shrink-0 rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-xs font-medium text-stone-600 shadow-2xs transition hover:bg-stone-50"
                   >
-                    Change Receipt
+                    Change
                   </button>
                 </div>
               </div>
@@ -420,12 +418,12 @@ const Payment = () => {
 
             {/* Progress Bar */}
             {uploading && (
-              <div className="mt-6">
-                <div className="mb-2 flex justify-between text-xs font-semibold text-gray-500">
-                  <span>Uploading…</span>
+              <div className="mt-5">
+                <div className="mb-1.5 flex justify-between text-[10px] font-semibold uppercase tracking-wider text-stone-400">
+                  <span>Uploading engine elements…</span>
                   <span>{progress}%</span>
                 </div>
-                <div className="h-2.5 w-full overflow-hidden rounded-full bg-gray-100">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-stone-100">
                   <div
                     className="h-full rounded-full bg-teal-600 transition-all duration-300"
                     style={{ width: `${progress}%` }}
@@ -436,9 +434,9 @@ const Payment = () => {
 
             {/* Error */}
             {uploadError && (
-              <div className="mt-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4">
-                <FaTimesCircle className="mt-0.5 flex-shrink-0 text-red-400" />
-                <p className="text-sm text-red-600">{uploadError}</p>
+              <div className="mt-5 flex items-start gap-2.5 rounded-xl border border-red-100 bg-red-50/50 px-4 py-3">
+                <FaTimesCircle className="mt-0.5 flex-shrink-0 text-red-400" size={13} />
+                <p className="text-xs text-red-600 font-light leading-5">{uploadError}</p>
               </div>
             )}
 
@@ -447,16 +445,16 @@ const Payment = () => {
               type="button"
               onClick={handleSubmit}
               disabled={uploading || !selectedFile}
-              className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-teal-700 py-5 text-base font-bold text-white shadow-lg transition-all duration-200 hover:bg-teal-800 hover:shadow-xl active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-teal-600 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition duration-200 hover:bg-teal-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {uploading ? (
                 <>
-                  <FaSpinner className="animate-spin" />
+                  <FaSpinner className="animate-spin" size={11} />
                   Uploading Receipt…
                 </>
               ) : (
                 <>
-                  <FaCheckCircle />
+                  <FaCheckCircle size={11} />
                   Submit Payment
                 </>
               )}
@@ -472,11 +470,11 @@ const Payment = () => {
 };
 
 const SummaryRow = ({ label, value, mono = false }) => (
-  <div className="flex items-start justify-between gap-4">
-    <span className="flex-shrink-0 text-sm text-gray-500">{label}</span>
+  <div className="flex items-start justify-between gap-4 text-xs font-light">
+    <span className="flex-shrink-0 text-stone-400">{label}</span>
     <span
-      className={`text-right text-sm font-semibold text-gray-800 ${
-        mono ? "break-all font-mono text-xs" : ""
+      className={`text-right font-medium text-stone-800 ${
+        mono ? "break-all font-mono text-[11px] tracking-wide" : ""
       }`}
     >
       {value || "—"}
@@ -485,9 +483,9 @@ const SummaryRow = ({ label, value, mono = false }) => (
 );
 
 const SuccessRow = ({ label, value }) => (
-  <div className="flex items-center justify-between">
-    <span className="text-sm text-gray-500">{label}</span>
-    <span className="text-sm font-semibold text-gray-800">{value || "—"}</span>
+  <div className="flex items-center justify-between border-b border-stone-200/30 pb-2 last:border-0 last:pb-0 text-xs font-light">
+    <span className="text-stone-400">{label}</span>
+    <span className="font-medium text-stone-800">{value || "—"}</span>
   </div>
 );
 

@@ -1,5 +1,5 @@
 ﻿import { useState, useCallback, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import {
   FaSearch,
   FaCheckCircle,
@@ -8,6 +8,9 @@ import {
   FaDownload,
   FaSpa,
   FaUser,
+  FaHome,
+  FaArrowLeft,
+  FaExclamationCircle,
 } from "react-icons/fa";
 import { getBookingByReference, downloadBookingConfirmation } from "../services/bookingApi";
 import { imageUrl } from "../utils/imageUrl";
@@ -30,18 +33,18 @@ const BOOKING_STATUS_LABELS = {
 };
 
 const PAYMENT_STATUS_COLORS = {
-  Pending: "bg-orange-50 text-orange-700 ring-1 ring-orange-200",
-  "Pending Verification": "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
-  Paid: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
-  Rejected: "bg-red-50 text-red-600 ring-1 ring-red-200",
-  Refunded: "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
+  Pending: "bg-orange-50 text-orange-700 ring-1 ring-orange-200/50",
+  "Pending Verification": "bg-amber-50 text-amber-700 ring-1 ring-amber-200/50",
+  Paid: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200/50",
+  Rejected: "bg-red-50 text-red-600 ring-1 ring-red-200/50",
+  Refunded: "bg-sky-50 text-sky-700 ring-1 ring-sky-200/50",
 };
 
 const BOOKING_STATUS_COLORS = {
-  Pending: "bg-gray-100 text-gray-600 ring-1 ring-gray-200",
-  Confirmed: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
-  Completed: "bg-blue-50 text-blue-700 ring-1 ring-blue-200",
-  Cancelled: "bg-red-50 text-red-600 ring-1 ring-red-200",
+  Pending: "bg-stone-100 text-stone-600 ring-1 ring-stone-200/40",
+  Confirmed: "bg-teal-50 text-teal-700 ring-1 ring-teal-200/50",
+  Completed: "bg-blue-50 text-blue-700 ring-1 ring-blue-200/50",
+  Cancelled: "bg-red-50 text-red-600 ring-1 ring-red-200/50",
 };
 
 // ─── Timeline Builder ─────────────────────────────────────────────────────────
@@ -49,14 +52,14 @@ const BOOKING_STATUS_COLORS = {
 const buildTimeline = (paymentStatus, bookingStatus) => {
   if (paymentStatus === "Rejected") {
     return [
-      { key: "submitted", label: "Booking Submitted", description: "Your booking request was received.", done: true },
-      { key: "rejected", label: "Payment Rejected", description: "Your payment could not be verified. Please contact support.", done: true, rejected: true },
+      { key: "submitted", label: "Booking Submitted", description: "Your appointment request was received.", done: true },
+      { key: "rejected", label: "Payment Rejected", description: "We couldn't verify your payment. Please get in touch with our team.", done: true, rejected: true },
     ];
   }
 
   if (bookingStatus === "Cancelled") {
     return [
-      { key: "submitted", label: "Booking Submitted", description: "Your booking request was received.", done: true },
+      { key: "submitted", label: "Booking Submitted", description: "Your appointment request was received.", done: true },
       { key: "cancelled", label: "Booking Cancelled", description: "This booking has been cancelled.", done: true, rejected: true },
     ];
   }
@@ -65,13 +68,13 @@ const buildTimeline = (paymentStatus, bookingStatus) => {
     {
       key: "submitted",
       label: "Booking Submitted",
-      description: "Your booking request has been received.",
+      description: "We've received your appointment request.",
       done: true,
     },
     {
       key: "review",
       label: "Payment Under Review",
-      description: "Our team is verifying your payment receipt.",
+      description: "Our team is checking your payment receipt right now.",
       done:
         paymentStatus === "Pending Verification" ||
         paymentStatus === "Paid" ||
@@ -81,7 +84,7 @@ const buildTimeline = (paymentStatus, bookingStatus) => {
     {
       key: "confirmed",
       label: "Booking Confirmed",
-      description: "Payment verified. Your appointment is confirmed.",
+      description: "Payment verified! Your appointment is officially locked in.",
       done:
         (paymentStatus === "Paid" && bookingStatus === "Confirmed") ||
         bookingStatus === "Completed",
@@ -89,7 +92,7 @@ const buildTimeline = (paymentStatus, bookingStatus) => {
     {
       key: "completed",
       label: "Treatment Completed",
-      description: "Your spa session has been completed. Thank you.",
+      description: "We hope you enjoyed your time at the spa.",
       done: bookingStatus === "Completed",
     },
   ];
@@ -119,18 +122,15 @@ const fallbackAvatar =
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const TrackBooking = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const [reference, setReference] = useState(
-    searchParams.get("ref") || ""
-  );
+  const [reference, setReference] = useState(searchParams.get("ref") || "");
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState("");
   const [downloading, setDownloading] = useState(false);
-
-  // ── Core lookup — reused by both useEffect and form submit ────────────────
 
   const lookup = useCallback(async (ref) => {
     const trimmed = ref.trim().toUpperCase();
@@ -152,7 +152,7 @@ const TrackBooking = () => {
       if (err?.response?.status === 404) {
         setBooking(null);
       } else {
-        setError("Something went wrong. Please try again.");
+        setError("Something went wrong. Please check your connection and try again.");
       }
     } finally {
       setLoading(false);
@@ -160,14 +160,11 @@ const TrackBooking = () => {
     }
   }, []);
 
-  // ── Auto-lookup when ?ref= query param is present on mount ────────────────
-
   useEffect(() => {
     const ref = searchParams.get("ref");
     if (ref && ref.trim()) {
       lookup(ref.trim());
     }
-    // Only run on mount — intentionally omitting searchParams from deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -188,7 +185,7 @@ const TrackBooking = () => {
       a.click();
       URL.revokeObjectURL(url);
     } catch {
-      // PDF may not be ready yet — fail silently
+      setError("We couldn't generate the PDF right now. Please try again in a moment.");
     } finally {
       setDownloading(false);
     }
@@ -199,313 +196,275 @@ const TrackBooking = () => {
     : [];
 
   return (
-    <div className="min-h-screen bg-[#F8F6F2]">
+    <div className="min-h-screen bg-[#FAF9F6] text-stone-800 antialiased pt-36 pb-24">
+      <div className="mx-auto max-w-4xl px-6">
+        
+        {/* Navigation Utilities */}
+        <div className="mb-8 flex items-center justify-between">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-500 hover:text-stone-900 transition-colors"
+          >
+            <FaArrowLeft size={10} />
+            Go Back
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-stone-500 hover:text-stone-900 transition-colors"
+          >
+            <FaHome size={11} />
+            Home
+          </button>
+        </div>
 
-      {/* ── Hero / Search ───────────────────────────────────────────────── */}
-      <section className="bg-stone-900 pb-24 pt-40">
-        <div className="mx-auto max-w-2xl px-6 text-center">
-          <span className="inline-block rounded-full bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-stone-300">
+        {/* ── Title / Search ───────────────────────────────────────────────── */}
+        <div className="mb-14 text-center">
+          <span className="inline-flex items-center rounded-full bg-stone-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500">
             Zenith Spa
           </span>
-          <h1 className="mt-6 text-4xl font-light leading-tight text-white md:text-5xl">
-            Track Your Booking
+          <h1 className="mt-4 text-3xl font-light tracking-tight text-stone-900 sm:text-4xl">
+            Track Your Appointment
           </h1>
-          <p className="mt-4 text-lg text-stone-400">
-            Enter your booking reference to view your appointment status and
-            download your confirmation.
+          <p className="mt-3 text-xs font-light leading-5 text-stone-500 max-w-sm mx-auto">
+            Enter your booking reference code to view live status updates, verify your details, or download your receipt.
           </p>
 
           <form
             onSubmit={handleSearch}
-            className="mt-10 flex flex-col gap-3 sm:flex-row"
+            className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row"
           >
             <input
               type="text"
               value={reference}
               onChange={(e) => setReference(e.target.value)}
               placeholder="e.g. ZS-20250705-000001"
-              className="flex-1 rounded-2xl border border-white/10 bg-white/10 px-6 py-4 text-sm font-medium text-white placeholder-stone-500 outline-none transition focus:border-white/30 focus:bg-white/15"
+              className="flex-1 rounded-xl border border-stone-200/80 bg-white px-4 py-3 text-xs font-medium text-stone-800 placeholder-stone-400 outline-none transition focus:border-teal-500/80 shadow-2xs"
             />
             <button
               type="submit"
               disabled={loading || !reference.trim()}
-              className="flex items-center justify-center gap-2 rounded-2xl bg-teal-600 px-8 py-4 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex items-center justify-center gap-2 rounded-xl bg-stone-900 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-2xs transition hover:bg-black active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <FaSearch className="text-xs" />
-              {loading ? "Searching..." : "Track Booking"}
+              <FaSearch className="text-[10px]" />
+              {loading ? "Searching…" : "Find Booking"}
             </button>
           </form>
 
           {error && (
-            <p className="mt-4 text-sm text-red-400">{error}</p>
+            <div className="mx-auto mt-4 flex max-w-xl items-start gap-2 rounded-xl border border-red-100 bg-red-50/40 px-4 py-2.5 text-left">
+              <FaExclamationCircle className="mt-0.5 flex-shrink-0 text-red-400" size={12} />
+              <p className="text-xs text-red-600 font-light leading-4">{error}</p>
+            </div>
           )}
         </div>
-      </section>
 
-      {/* ── Results ─────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-4xl px-6 pb-24">
+        {/* ── Results Container ─────────────────────────────────────────────── */}
+        <div className="space-y-6">
 
-        {/* Loading */}
-        {loading && (
-          <div className="mt-16 flex flex-col items-center justify-center gap-5 text-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-stone-200 border-t-teal-600" />
-            <p className="text-sm font-medium text-stone-500">
-              Looking up your booking...
-            </p>
-          </div>
-        )}
-
-        {/* Not Found */}
-        {!loading && searched && !booking && !error && (
-          <div className="mt-16 flex flex-col items-center justify-center gap-4 text-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-stone-100">
-              <FaSearch className="text-3xl text-stone-300" />
+          {/* Loading State */}
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 animate-pulse">
+                Finding your booking...
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-stone-700">
-              Booking Not Found
-            </h3>
-            <p className="max-w-sm text-sm text-stone-500">
-              We could not find a booking matching that reference. Please check
-              the reference and try again.
-            </p>
-          </div>
-        )}
+          )}
 
-        {/* Results */}
-        {!loading && booking && (
-          <div className="-mt-8 space-y-6">
-
-            {/* ── Booking Summary ─────────────────────────────────────── */}
-            <div className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-stone-100">
-              <div className="border-b border-stone-100 px-8 py-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-stone-400">
-                      Booking Reference
-                    </p>
-                    <h2 className="mt-1 font-mono text-2xl font-bold text-stone-900">
-                      {booking.bookingReference}
-                    </h2>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <span
-                      className={`rounded-full px-4 py-1.5 text-xs font-semibold ${
-                        PAYMENT_STATUS_COLORS[booking.paymentStatus] ||
-                        "bg-gray-100 text-gray-600"
-                      }`}
-                    >
-                      {PAYMENT_STATUS_LABELS[booking.paymentStatus] ||
-                        booking.paymentStatus}
-                    </span>
-                    <span
-                      className={`rounded-full px-4 py-1.5 text-xs font-semibold ${
-                        BOOKING_STATUS_COLORS[booking.bookingStatus] ||
-                        "bg-gray-100 text-gray-600"
-                      }`}
-                    >
-                      {BOOKING_STATUS_LABELS[booking.bookingStatus] ||
-                        booking.bookingStatus}
-                    </span>
-                  </div>
-                </div>
+          {/* Not Found */}
+          {!loading && searched && !booking && !error && (
+            <div className="rounded-2xl border border-stone-200/40 bg-white p-10 text-center shadow-2xs max-w-md mx-auto">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-stone-50 border border-stone-200/40 text-stone-400">
+                <FaSearch size={14} />
               </div>
-
-              <div className="grid gap-0 divide-y divide-stone-50 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                <div className="px-8 py-6">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-400">
-                    Customer
-                  </p>
-                  <p className="mt-2 text-base font-semibold text-stone-800">
-                    {booking.customerName}
-                  </p>
-                  <p className="mt-0.5 text-sm text-stone-500">{booking.email}</p>
-                </div>
-                <div className="px-8 py-6">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-400">
-                    Total Amount
-                  </p>
-                  <p className="mt-2 text-2xl font-bold text-teal-700">
-                    {fmt.currency(booking.totalAmount)}
-                  </p>
-                  <p className="mt-0.5 text-sm text-stone-500">
-                    via {booking.paymentMethod?.name || "—"}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* ── Two-column: Appointment + Therapist ─────────────────── */}
-            <div className="grid gap-6 md:grid-cols-2">
-
-              {/* Appointment */}
-              <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-stone-100">
-                <h3 className="mb-5 flex items-center gap-2.5 text-sm font-bold uppercase tracking-widest text-stone-400">
-                  <FaCalendarAlt className="text-teal-500" />
-                  Appointment
-                </h3>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-xs text-stone-400">Date</p>
-                    <p className="mt-0.5 font-semibold text-stone-800">
-                      {fmt.date(booking.bookingDate)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-stone-400">Time</p>
-                    <p className="mt-0.5 font-semibold text-stone-800">
-                      {booking.time || "—"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-stone-400">Service</p>
-                    <p className="mt-0.5 font-semibold text-stone-800">
-                      {booking.service?.name || "—"}
-                    </p>
-                  </div>
-                  {booking.service?.duration && (
-                    <div>
-                      <p className="text-xs text-stone-400">Duration</p>
-                      <p className="mt-0.5 font-semibold text-stone-800">
-                        {booking.service.duration} mins
-                      </p>
-                    </div>
-                  )}
-                  {booking.service?.price && (
-                    <div>
-                      <p className="text-xs text-stone-400">Price</p>
-                      <p className="mt-0.5 font-semibold text-stone-800">
-                        {fmt.currency(booking.service.price)}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Therapist */}
-              <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-stone-100">
-                <h3 className="mb-5 flex items-center gap-2.5 text-sm font-bold uppercase tracking-widest text-stone-400">
-                  <FaSpa className="text-teal-500" />
-                  Your Therapist
-                </h3>
-                {booking.therapist ? (
-                  <div className="flex items-center gap-5">
-                    <img
-                      src={imageUrl(booking.therapist.image) || fallbackAvatar}
-                      alt={booking.therapist.name}
-                      onError={(e) => { e.target.src = fallbackAvatar; }}
-                      className="h-20 w-20 flex-shrink-0 rounded-2xl object-cover shadow-sm"
-                    />
-                    <div>
-                      <p className="text-lg font-bold text-stone-900">
-                        {booking.therapist.name}
-                      </p>
-                      {booking.therapist.specialization && (
-                        <p className="mt-0.5 text-sm text-teal-700">
-                          {booking.therapist.specialization}
-                        </p>
-                      )}
-                      {booking.therapist.experience && (
-                        <p className="mt-1 text-xs text-stone-400">
-                          {booking.therapist.experience} yrs experience
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-4 text-stone-400">
-                    <FaUser className="text-3xl" />
-                    <p className="text-sm">Therapist information unavailable.</p>
-                  </div>
-                )}
-              </div>
-
-            </div>
-
-            {/* ── Timeline ────────────────────────────────────────────── */}
-            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-stone-100">
-              <h3 className="mb-8 text-sm font-bold uppercase tracking-widest text-stone-400">
-                Booking Progress
+              <h3 className="text-base font-medium tracking-tight text-stone-900">
+                Booking Not Found
               </h3>
-              <div className="space-y-0">
-                {timeline.map((step, i) => {
-                  const isLast = i === timeline.length - 1;
-                  return (
-                    <div key={step.key} className="flex gap-5">
-                      <div className="flex flex-col items-center">
-                        <div
-                          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full transition-all ${
-                            step.rejected
-                              ? "bg-red-100 text-red-500"
-                              : step.done
-                              ? "bg-teal-600 text-white"
-                              : "bg-stone-100 text-stone-300"
-                          }`}
-                        >
-                          {step.done ? (
-                            <FaCheckCircle className="text-sm" />
-                          ) : (
-                            <FaClock className="text-sm" />
-                          )}
-                        </div>
-                        {!isLast && (
-                          <div
-                            className={`mt-1 w-0.5 flex-1 ${
-                              step.done ? "bg-teal-200" : "bg-stone-100"
-                            }`}
-                            style={{ minHeight: "2.5rem" }}
-                          />
+              <p className="mt-2 text-xs font-light leading-5 text-stone-500">
+                We couldn't find an appointment matching that reference code. Double-check your confirmation email or message and try searching again.
+              </p>
+            </div>
+          )}
+
+          {/* Core Results Block */}
+          {!loading && booking && (
+            <div className="space-y-6">
+
+              {/* ── Overview Summary ─────────────────────────────────────── */}
+              <div className="rounded-2xl border border-stone-200/40 bg-white shadow-2xs overflow-hidden">
+                <div className="border-b border-stone-100 px-6 py-5">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">
+                        Booking Reference
+                      </p>
+                      <h2 className="mt-0.5 font-mono text-lg font-medium text-stone-900 tracking-wide">
+                        {booking.bookingReference}
+                      </h2>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${PAYMENT_STATUS_COLORS[booking.paymentStatus] || "bg-stone-100 text-stone-600"}`}>
+                        {PAYMENT_STATUS_LABELS[booking.paymentStatus] || booking.paymentStatus}
+                      </span>
+                      <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${BOOKING_STATUS_COLORS[booking.bookingStatus] || "bg-stone-100 text-stone-600"}`}>
+                        {BOOKING_STATUS_LABELS[booking.bookingStatus] || booking.bookingStatus}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid divide-y divide-stone-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0 bg-stone-50/30">
+                  <div className="px-6 py-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">Guest</p>
+                    <p className="mt-1 text-xs font-medium text-stone-800">{booking.customerName}</p>
+                    <p className="text-xs font-light text-stone-400 mt-0.5">{booking.email}</p>
+                  </div>
+                  <div className="px-6 py-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">Total Paid</p>
+                    <p className="mt-0.5 text-base font-light text-teal-600">{fmt.currency(booking.totalAmount)}</p>
+                    <p className="text-xs font-light text-stone-400 mt-0.5">via {booking.paymentMethod?.name || "—"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Details Grid ────────────────────────────────────────────── */}
+              <div className="grid gap-6 md:grid-cols-2">
+
+                {/* Appointment Schedule */}
+                <div className="rounded-2xl border border-stone-200/40 bg-white p-6 shadow-2xs">
+                  <h3 className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-900">
+                    <FaCalendarAlt className="text-teal-600" size={12} />
+                    Appointment Details
+                  </h3>
+                  <div className="space-y-3">
+                    <DataRow label="Date" value={fmt.date(booking.bookingDate)} />
+                    <DataRow label="Time" value={booking.time} />
+                    <DataRow label="Service" value={booking.service?.name} />
+                    {booking.service?.duration && (
+                      <DataRow label="Duration" value={`${booking.service.duration} mins`} />
+                    )}
+                    {booking.service?.price && (
+                      <DataRow label="Price" value={fmt.currency(booking.service.price)} />
+                    )}
+                  </div>
+                </div>
+
+                {/* Assigned Therapist */}
+                <div className="rounded-2xl border border-stone-200/40 bg-white p-6 shadow-2xs">
+                  <h3 className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-900">
+                    <FaSpa className="text-teal-600" size={12} />
+                    Your Therapist
+                  </h3>
+                  {booking.therapist ? (
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={imageUrl(booking.therapist.image) || fallbackAvatar}
+                        alt={booking.therapist.name}
+                        onError={(e) => { e.target.src = fallbackAvatar; }}
+                        className="h-16 w-16 flex-shrink-0 rounded-xl object-cover border border-stone-200/40 shadow-3xs"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-stone-900">{booking.therapist.name}</p>
+                        {booking.therapist.specialization && (
+                          <p className="text-xs font-light text-teal-600 mt-0.5">{booking.therapist.specialization}</p>
+                        )}
+                        {booking.therapist.experience && (
+                          <p className="text-[10px] font-light text-stone-400 mt-1 uppercase tracking-wider">
+                            {booking.therapist.experience} years experience
+                          </p>
                         )}
                       </div>
-                      <div className={`pb-8 ${isLast ? "pb-0" : ""}`}>
-                        <p
-                          className={`text-sm font-semibold ${
-                            step.rejected
-                              ? "text-red-600"
-                              : step.done
-                              ? "text-stone-900"
-                              : "text-stone-400"
-                          }`}
-                        >
-                          {step.label}
-                        </p>
-                        <p className="mt-0.5 text-xs text-stone-400">
-                          {step.description}
-                        </p>
-                      </div>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* ── Download Confirmation ────────────────────────────────── */}
-            {booking.confirmationPdf && (
-              <div className="flex flex-col items-center justify-between gap-4 rounded-3xl bg-teal-700 px-8 py-7 sm:flex-row">
-                <div>
-                  <p className="font-semibold text-white">
-                    Your confirmation is ready.
-                  </p>
-                  <p className="mt-0.5 text-sm text-teal-200">
-                    Download your PDF confirmation to keep for your records.
-                  </p>
+                  ) : (
+                    <div className="flex items-center gap-3 py-4 text-stone-400">
+                      <FaUser size={14} />
+                      <p className="text-xs font-light">Therapist details are not currently assigned.</p>
+                    </div>
+                  )}
                 </div>
-                <button
-                  onClick={handleDownload}
-                  disabled={downloading}
-                  className="flex flex-shrink-0 items-center gap-2.5 rounded-2xl bg-white px-7 py-3.5 text-sm font-bold text-teal-700 transition hover:bg-teal-50 disabled:opacity-60"
-                >
-                  <FaDownload />
-                  {downloading ? "Downloading..." : "Download PDF"}
-                </button>
+
               </div>
-            )}
 
-          </div>
-        )}
+              {/* ── Progress Timeline ────────────────────────────────────── */}
+              <div className="rounded-2xl border border-stone-200/40 bg-white p-6 shadow-2xs">
+                <h3 className="mb-6 text-xs font-semibold uppercase tracking-wider text-stone-900">
+                  Booking Progress
+                </h3>
+                <div className="space-y-0">
+                  {timeline.map((step, i) => {
+                    const isLast = i === timeline.length - 1;
+                    return (
+                      <div key={step.key} className="flex gap-4">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all border ${
+                              step.rejected
+                                ? "bg-red-50 border-red-200 text-red-500"
+                                : step.done
+                                ? "bg-teal-50 border-teal-200 text-teal-600"
+                                : "bg-stone-50 border-stone-200/60 text-stone-300"
+                            }`}
+                          >
+                            {step.done ? <FaCheckCircle size={10} /> : <FaClock size={10} />}
+                          </div>
+                          {!isLast && (
+                            <div
+                              className={`w-px flex-1 my-1 ${
+                                step.done ? "bg-teal-500/30" : "bg-stone-200/40"
+                              }`}
+                              style={{ minHeight: "2rem" }}
+                            />
+                          )}
+                        </div>
+                        <div className={`pb-6 ${isLast ? "pb-0" : ""}`}>
+                          <p className={`text-xs font-medium ${step.rejected ? "text-red-600" : step.done ? "text-stone-900" : "text-stone-400"}`}>
+                            {step.label}
+                          </p>
+                          <p className="mt-0.5 text-[11px] font-light text-stone-400 leading-4">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
 
-      </section>
+              {/* ── PDF Download Section ──────────────────────────────────────── */}
+              {booking.confirmationPdf && (
+                <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-teal-200/60 bg-teal-50/20 p-5 sm:flex-row shadow-3xs">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-teal-900">
+                      Confirmation Ready
+                    </p>
+                    <p className="mt-1 text-xs font-light text-teal-700 leading-4">
+                      You can download a clean PDF copy of your confirmation document to save for your records.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleDownload}
+                    disabled={downloading}
+                    className="flex flex-shrink-0 items-center gap-2 rounded-xl bg-stone-900 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-2xs transition hover:bg-black active:scale-[0.99] disabled:opacity-50"
+                  >
+                    <FaDownload size={10} />
+                    {downloading ? "Downloading…" : "Download PDF"}
+                  </button>
+                </div>
+              )}
+
+            </div>
+          )}
+
+        </div>
+      </div>
     </div>
   );
 };
+
+const DataRow = ({ label, value }) => (
+  <div className="flex items-center justify-between border-b border-stone-100 pb-2.5 last:border-0 last:pb-0 text-xs font-light">
+    <span className="text-stone-400">{label}</span>
+    <span className="font-medium text-stone-700 text-right">{value || "—"}</span>
+  </div>
+);
 
 export default TrackBooking;

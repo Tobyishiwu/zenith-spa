@@ -7,19 +7,23 @@ import BookingCTA from "../components/BookingCTA";
 
 const Home = () => {
   return (
-    <>
+    <div className="bg-[#FAF9F6] text-stone-800 antialiased min-h-screen">
+      {/* Hero Intro Block */}
       <Hero />
 
-      <Features />
+      {/* Primary Value Propositions & Core Offerings */}
+      <main className="space-y-24 pb-24">
+        <Features />
 
-      <Services />
+        <Services />
 
-      <WhyChoose />
+        <WhyChoose />
 
-      <Therapists />
+        <Therapists />
 
-      <BookingCTA />
-    </>
+        <BookingCTA />
+      </main>
+    </div>
   );
 };
 

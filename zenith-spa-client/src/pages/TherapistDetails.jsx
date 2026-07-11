@@ -18,7 +18,9 @@ const TherapistDetails = () => {
   if (loading) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <p className="text-xl font-semibold text-gray-500">Loading therapist...</p>
+        <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 animate-pulse">
+          Loading profile...
+        </p>
       </section>
     );
   }
@@ -26,12 +28,14 @@ const TherapistDetails = () => {
   if (!therapist) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-900">Therapist Not Found</h2>
-          <p className="mt-4 text-gray-600">The therapist you are looking for does not exist.</p>
+        <div className="text-center max-w-sm px-6">
+          <h2 className="text-2xl font-light tracking-tight text-stone-900">Therapist Not Found</h2>
+          <p className="mt-2 text-xs font-light text-stone-500 leading-5">
+            The wellness professional you are looking for is currently unavailable or does not exist.
+          </p>
           <Link
             to="/therapists"
-            className="mt-8 inline-block rounded-xl bg-teal-700 px-8 py-4 font-semibold text-white transition hover:bg-teal-800"
+            className="mt-6 inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-5 py-3 text-xs font-semibold uppercase tracking-wider text-stone-600 shadow-xs transition hover:bg-stone-50"
           >
             Back to Therapists
           </Link>
@@ -41,84 +45,90 @@ const TherapistDetails = () => {
   }
 
   return (
-    <section className="bg-[#FAF9F6] pb-24 pt-32">
-      <div className="mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-2">
+    <section className="bg-[#FAF9F6] text-stone-800 antialiased pb-24 pt-36">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:items-start lg:gap-16">
 
-        {/* Hero Image — imageUrl() resolves relative /uploads/... to full URL */}
+        {/* ── IMAGE WRAPPER (CLEAN TECH TECH AESTHETIC) ── */}
         <div className="relative">
-          <img
-            src={imageUrl(therapist.image) || fallback}
-            alt={therapist.name}
-            onError={(e) => { e.target.src = fallback; }}
-            className="h-[720px] w-full rounded-[40px] object-cover shadow-2xl"
-          />
-          <div className="absolute left-8 top-8 rounded-full bg-white px-5 py-3 font-semibold text-teal-700 shadow">
-            Available Today
+          <div className="overflow-hidden rounded-2xl border border-stone-200/40 bg-white p-3 shadow-xs">
+            <img
+              src={imageUrl(therapist.image) || fallback}
+              alt={therapist.name}
+              onError={(e) => { e.target.src = fallback; }}
+              className="h-[560px] w-full rounded-xl object-cover"
+            />
+          </div>
+          <div className="absolute left-7 top-7 inline-flex items-center gap-1.5 rounded-full bg-white/90 border border-stone-200/60 px-4 py-2 text-[10px] font-semibold uppercase tracking-wider text-teal-700 shadow-xs backdrop-blur-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-pulse" /> Available Today
           </div>
         </div>
 
-        {/* Details */}
-        <div>
-          <span className="font-semibold uppercase tracking-widest text-teal-700">
+        {/* ── DETAILS PANEL ── */}
+        <div className="lg:pt-3">
+          <span className="inline-flex items-center rounded-full bg-stone-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500">
             Zenith Spa Therapist
           </span>
 
-          <h1 className="mt-4 text-6xl font-black text-gray-900">{therapist.name}</h1>
+          <h1 className="mt-4 text-3xl font-light tracking-tight text-stone-900 sm:text-4xl">{therapist.name}</h1>
+          <p className="mt-2 text-sm font-medium text-teal-600">{therapist.specialization}</p>
 
-          <p className="mt-4 text-2xl font-semibold text-teal-700">{therapist.specialization}</p>
-
-          <div className="mt-8 flex flex-wrap gap-8">
+          {/* Metrics Container */}
+          <div className="mt-6 flex flex-wrap items-center gap-6 border-y border-stone-200/40 py-4 text-xs font-light text-stone-500">
             {therapist.rating && (
-              <div className="flex items-center gap-2">
-                <FaStar className="text-amber-400" />
-                <span className="font-semibold">{therapist.rating}</span>
+              <div className="flex items-center gap-1.5">
+                <FaStar className="text-amber-400" size={13} />
+                <span className="font-semibold text-stone-800">{therapist.rating}</span>
                 {therapist.reviews && (
-                  <span className="text-gray-500">({therapist.reviews} reviews)</span>
+                  <span className="text-stone-400">({therapist.reviews} reviews)</span>
                 )}
               </div>
             )}
             {therapist.experience && (
-              <div className="flex items-center gap-2">
-                <FaBriefcase />
-                <span>{therapist.experience} Years</span>
+              <div className="flex items-center gap-1.5 border-l border-stone-200/60 pl-6">
+                <FaBriefcase className="text-stone-400" size={13} />
+                <span><strong className="font-medium text-stone-800">{therapist.experience}</strong> Years Experience</span>
               </div>
             )}
-            <div className="flex items-center gap-2 text-green-700">
-              <FaCheckCircle />
-              Available
+            <div className="flex items-center gap-1.5 border-l border-stone-200/60 pl-6 text-emerald-600 font-medium">
+              <FaCheckCircle size={13} />
+              <span>Active Now</span>
             </div>
           </div>
 
           {therapist.bio && (
-            <p className="mt-10 text-lg leading-9 text-gray-600">{therapist.bio}</p>
+            <p className="mt-6 text-xs font-light leading-6 tracking-wide text-stone-500">{therapist.bio}</p>
           )}
 
-          <div className="mt-12 rounded-[32px] bg-white p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900">
+          {/* Highlights Card */}
+          <div className="mt-8 rounded-2xl border border-stone-200/40 bg-white p-6 shadow-xs">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-900">
               Why Choose {therapist.name.split(" ")[0]}?
             </h3>
-            <div className="mt-8 space-y-4">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {[
                 "Certified professional therapist",
                 "Luxury home spa treatments",
                 "Flexible appointment scheduling",
-                "Trusted by hundreds of satisfied clients",
+                "Trusted by hundreds of clients",
               ].map((point) => (
-                <div key={point} className="flex gap-3">
-                  <FaCheckCircle className="mt-1 flex-shrink-0 text-teal-700" />
-                  <span className="text-gray-700">{point}</span>
+                <div key={point} className="flex gap-2.5 items-start">
+                  <FaCheckCircle className="mt-0.5 flex-shrink-0 text-teal-600" size={12} />
+                  <span className="text-xs font-light tracking-wide text-stone-600">{point}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <Link
-            to={`/booking?therapist=${therapist.slug}`}
-            className="mt-10 inline-flex items-center gap-3 rounded-2xl bg-teal-700 px-10 py-5 text-lg font-bold text-white transition hover:bg-teal-800"
-          >
-            Book {therapist.name.split(" ")[0]}
-            <FaArrowRight />
-          </Link>
+          {/* Primary Action Call */}
+          <div className="mt-8 pt-2">
+            <Link
+              to={`/booking?therapist=${therapist.slug}`}
+              className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition duration-200 hover:bg-teal-700 active:scale-98"
+            >
+              Book {therapist.name.split(" ")[0]}
+              <FaArrowRight className="text-[9px]" />
+            </Link>
+          </div>
         </div>
 
       </div>
