@@ -1,5 +1,6 @@
 ﻿import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+
 import Layout from "./layouts/Layout";
 
 import Home from "./pages/Home";
@@ -23,14 +24,22 @@ import AdminSettings from "./admin/pages/Settings";
 
 function ProtectedAdminRoute({ children }) {
   const token = localStorage.getItem("adminToken");
-  if (!token) return <Navigate to="/admin/login" replace />;
+
+  if (!token) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
   return children;
 }
 
 function App() {
   return (
     <BrowserRouter>
+      {/* Automatically scroll every page to the top on navigation */}
+      <ScrollToTop />
+
       <Routes>
+        {/* ===================== Public Website ===================== */}
 
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -44,7 +53,11 @@ function App() {
           <Route path="/contact" element={<Contact />} />
         </Route>
 
+        {/* ===================== Admin Login ===================== */}
+
         <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* ===================== Protected Admin ===================== */}
 
         <Route
           path="/admin"
@@ -58,17 +71,19 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="bookings" element={<Bookings />} />
           <Route path="therapists" element={<AdminTherapists />} />
-          <Route path="payment-methods" element={<AdminPaymentMethods />} />
+          <Route
+            path="payment-methods"
+            element={<AdminPaymentMethods />}
+          />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* ===================== Catch All ===================== */}
 
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-
