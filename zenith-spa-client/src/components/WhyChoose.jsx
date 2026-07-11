@@ -1,49 +1,48 @@
 import {
-  FaSpa,
+  FaSlidersH,
+  FaGlobe,
   FaShieldAlt,
-  FaClock,
-  FaHome,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 
 const items = [
   {
-    icon: <FaSpa />,
-    title: "Luxury Treatments",
-    text: "Premium spa experiences delivered by certified professionals.",
+    icon: <FaSlidersH />,
+    title: "Intelligent Matching",
+    text: "Our system is designed to recommend the ideal specialist based on your unique biometric preferences and recovery targets.",
+  },
+  {
+    icon: <FaGlobe />,
+    title: "Worldwide Network",
+    text: "Access premium luxury treatments spanning a unified, elite network of international practitioners across the globe.",
   },
   {
     icon: <FaShieldAlt />,
-    title: "Trusted Professionals",
-    text: "Background-checked and highly trained therapists.",
+    title: "Verified Professionals",
+    text: "Every single practitioner undergoes a rigorous credential validation and background assessment for unmatched safety.",
   },
   {
-    icon: <FaClock />,
-    title: "Flexible Scheduling",
-    text: "Book appointments at times that fit your lifestyle.",
-  },
-  {
-    icon: <FaHome />,
-    title: "At Your Doorstep",
-    text: "Enjoy a spa-quality experience in your home or hotel.",
+    icon: <FaMapMarkerAlt />,
+    title: "Flexible Venues",
+    text: "Experience top-tier therapy seamlessly delivered directly to your home, hotel, office, workspace, or private luxury venue.",
   },
 ];
 
 const WhyChoose = () => {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-[#FAF9F6] py-24 border-t border-stone-200/30">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 text-center">
-          <span className="font-semibold uppercase tracking-widest text-teal-700">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-400">
             Why Choose Us
           </span>
 
-          <h2 className="mt-3 text-5xl font-bold text-gray-900">
-            Wellness Without Leaving Home
+          <h2 className="mt-4 text-3xl font-light tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+            A New Standard for <span className="font-medium text-teal-600">Luxury Wellness.</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
-            We combine luxury, convenience, and experienced therapists to
-            create an unforgettable spa experience.
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-6 text-stone-500">
+            Zenith Spa reimagines holistic care by converging smart booking mechanics with a premiere global network of elite mobile therapeutic experts.
           </p>
         </div>
 
@@ -51,17 +50,17 @@ const WhyChoose = () => {
           {items.map((item) => (
             <div
               key={item.title}
-              className="rounded-3xl border border-gray-100 bg-[#FAF9F6] p-8 transition hover:-translate-y-2 hover:shadow-xl"
+              className="group rounded-3xl border border-stone-200/40 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-stone-200/40"
             >
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-700 text-2xl text-white">
+              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50/60 text-lg text-teal-600 transition-colors duration-300 group-hover:bg-teal-600 group-hover:text-white shadow-sm">
                 {item.icon}
               </div>
 
-              <h3 className="text-2xl font-bold">
+              <h3 className="text-base font-semibold tracking-tight text-stone-800">
                 {item.title}
               </h3>
 
-              <p className="mt-4 leading-7 text-gray-600">
+              <p className="mt-3 text-xs leading-5 text-stone-500 font-normal">
                 {item.text}
               </p>
             </div>

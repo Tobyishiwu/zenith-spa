@@ -1,35 +1,62 @@
 import { Link } from "react-router-dom";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaHome, FaHotel, FaBriefcase, FaCompass, FaMapMarkerAlt, FaSlidersH } from "react-icons/fa";
 
 const BookingCTA = () => {
+  const venues = [
+    { label: "Home", icon: <FaHome className="text-xs" /> },
+    { label: "Hotel", icon: <FaHotel className="text-xs" /> },
+    { label: "Office", icon: <FaBriefcase className="text-xs" /> },
+    { label: "Vacation Rental", icon: <FaCompass className="text-xs" /> },
+    { label: "Private Venue", icon: <FaMapMarkerAlt className="text-xs" /> },
+  ];
+
   return (
-    <section className="py-24">
+    <section className="py-24 bg-[#FAF9F6]">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-teal-700 to-teal-900 px-10 py-20 text-white lg:flex lg:items-center lg:justify-between">
+        <div className="overflow-hidden rounded-[2.5rem] border border-stone-200/30 bg-white px-8 py-16 shadow-sm sm:px-12 sm:py-20 lg:flex lg:items-center lg:justify-between lg:gap-12">
+          
           <div className="max-w-2xl">
-            <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold">
-              Mobile Luxury Spa
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-50 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/40 shadow-sm mb-6">
+              <FaSlidersH className="text-teal-600/80 text-[9px]" /> Smart Booking Experience
             </span>
 
-            <h2 className="mt-6 text-5xl font-bold leading-tight">
-              Relax in the Comfort of Your Home
+            <h2 className="text-3xl font-light tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+              Luxury Mobile Wellness. <span className="font-normal text-teal-600">Wherever You Are.</span>
             </h2>
 
-            <p className="mt-6 text-lg text-teal-100">
-              Book a certified therapist today and enjoy a premium spa
-              experience delivered to your doorstep.
+            <p className="mt-4 text-sm leading-6 text-stone-500">
+              Our intelligent platform is designed to recommend verified practitioners right to your location. Select your destination venue and experience a pristine therapeutic session tailored precisely to your environment.
             </p>
+
+            {/* Seamless Location Selection Grid */}
+            <div className="mt-8">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-400 block mb-3">
+                Available Destinations:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {venues.map((venue, idx) => (
+                  <div
+                    key={idx}
+                    className="inline-flex items-center gap-2 rounded-xl bg-stone-50 px-3.5 py-2 text-xs font-medium text-stone-600 ring-1 ring-stone-200/30 shadow-none transition-all duration-200"
+                  >
+                    <span className="text-teal-600/80">{venue.icon}</span>
+                    <span>{venue.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="mt-10 lg:mt-0">
+          <div className="mt-10 lg:mt-0 flex-shrink-0">
             <Link
               to="/booking"
-              className="inline-flex items-center gap-3 rounded-2xl bg-white px-8 py-5 text-lg font-bold text-teal-700 transition hover:scale-105"
+              className="inline-flex items-center gap-3 rounded-xl border border-teal-600/30 bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
             >
               Book Appointment
-              <FaArrowRight />
+              <FaArrowRight className="text-[10px]" />
             </Link>
           </div>
+
         </div>
       </div>
     </section>

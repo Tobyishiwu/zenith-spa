@@ -1,9 +1,17 @@
 ﻿import { Link } from "react-router-dom";
-import { FaArrowRight, FaCheckCircle, FaStar } from "react-icons/fa";
+import { FaArrowRight, FaCheckCircle, FaStar, FaGlobe, FaSlidersH, FaMapMarkerAlt, FaHome, FaHotel, FaBriefcase, FaCompass } from "react-icons/fa";
 import Stats from "./Stats";
 import HeroCard from "./HeroCard";
 
 const Hero = () => {
+  const locations = [
+    { label: "Home", icon: <FaHome className="text-xs" /> },
+    { label: "Hotel", icon: <FaHotel className="text-xs" /> },
+    { label: "Office", icon: <FaBriefcase className="text-xs" /> },
+    { label: "Vacation Rental", icon: <FaCompass className="text-xs" /> },
+    { label: "Luxury Private Venue", icon: <FaMapMarkerAlt className="text-xs" /> },
+  ];
+
   return (
     <section className="relative overflow-hidden bg-[#F8F6F2] pt-24 pb-16 sm:pt-28 lg:pt-36 lg:pb-24">
 
@@ -19,35 +27,58 @@ const Hero = () => {
           {/* LEFT — Content */}
           <div className="flex flex-col justify-center">
 
-            <span className="inline-flex w-fit items-center rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 ring-1 ring-stone-200 shadow-sm sm:px-5 sm:py-2">
-              ✨ Premium Mobile Spa Services
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 ring-1 ring-stone-200 shadow-sm sm:px-5 sm:py-2">
+              <span>✨</span> Intelligent Therapist Matching
             </span>
 
             <h1 className="mt-6 text-4xl font-light leading-[1.1] tracking-tight text-stone-900 sm:mt-8 sm:text-5xl lg:text-6xl xl:text-7xl">
-              Wellness
+              Worldwide Luxury
               <br />
-              Delivered
+              Wellness,
               <br />
-              <span className="font-semibold text-teal-600">To Your Doorstep.</span>
+              <span className="font-semibold text-teal-600">Tailored To You.</span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-sm leading-7 text-stone-500 sm:mt-6 sm:text-base sm:leading-8">
-              Experience world-class spa treatments, premium therapeutic massages, and deep somatic rejuvenation delivered directly to your home, hotel room, or workspace.
+            <p className="mt-5 max-w-xl text-sm leading-7 text-stone-600 sm:mt-6 sm:text-base sm:leading-8">
+              Zenith Spa is a worldwide mobile wellness platform designed to recommend trusted professional therapists tailored to your precise personal profile. Experience world-class treatments delivered wherever you choose to unwind.
             </p>
 
+            {/* Location Selector Pills */}
+            <div className="mt-6 sm:mt-8">
+              <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 block mb-3">
+                Choose your preferred location:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {locations.map((loc, idx) => (
+                  <div
+                    key={idx}
+                    className="inline-flex items-center gap-2 rounded-xl bg-white border border-stone-200/80 px-3.5 py-2 text-xs font-medium text-stone-700 shadow-sm transition-all hover:border-stone-300 hover:bg-stone-50"
+                  >
+                    {loc.icon}
+                    <span>{loc.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Trust metrics */}
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-xs font-medium text-stone-500 sm:mt-8 sm:gap-x-6">
-              <div className="flex items-center gap-1.5">
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-xs font-medium text-stone-600 border-t border-stone-200/60 pt-6 sm:mt-8 sm:gap-x-6">
+              <div className="flex items-center gap-1.5 bg-white/60 px-2.5 py-1 rounded-lg ring-1 ring-stone-200/40">
                 <FaStar className="text-amber-400" />
-                <span>4.9 / 5 Rating</span>
+                <span className="font-semibold text-stone-800">4.9 / 5</span>
+                <span className="text-stone-400">Global Rating</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <FaCheckCircle className="text-teal-600" />
-                <span>Certified Therapists</span>
+                <FaGlobe className="text-teal-600 text-xs" />
+                <span>Worldwide Network</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <FaCheckCircle className="text-teal-600" />
-                <span>Available Daily</span>
+                <FaCheckCircle className="text-teal-600 text-xs" />
+                <span>Vetted Professionals</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <FaSlidersH className="text-teal-600 text-xs" />
+                <span>Smart Booking Experience</span>
               </div>
             </div>
 
@@ -75,7 +106,7 @@ const Hero = () => {
           </div>
 
           {/* RIGHT — Image + card */}
-          <div className="relative mt-10 flex justify-center lg:mt-0">
+          <div className="relative mt-12 flex justify-center lg:mt-0">
             <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-none">
 
               {/* Decorative backdrop */}

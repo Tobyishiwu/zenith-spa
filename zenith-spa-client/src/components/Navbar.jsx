@@ -29,21 +29,21 @@ const Navbar = () => {
   const close = useCallback(() => setIsOpen(false), []);
   const handleBook = () => { close(); navigate("/booking"); };
 
-  // Text is always dark — navbar overlays a light hero background
+  // Clean Tech Minimal Aesthetic Desktop Classes
   const getDesktopLinkClass = (isActive) => {
-    const base = "relative text-sm font-medium transition-colors duration-200 after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-teal-600 after:transition-transform after:duration-300 hover:after:scale-x-100";
-    if (isActive) return base + " text-teal-700 after:scale-x-100";
-    return base + " text-gray-700 hover:text-teal-700";
+    const base = "relative text-xs font-semibold uppercase tracking-widest transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-teal-600 after:transition-transform after:duration-300 hover:after:scale-x-100";
+    if (isActive) return base + " text-stone-900 after:scale-x-100";
+    return base + " text-stone-500 hover:text-stone-900";
   };
 
   const getMobileLinkClass = (isActive) => {
     const base = "block rounded-xl px-4 py-3.5 text-sm font-medium transition-colors duration-150";
-    if (isActive) return base + " bg-teal-50 text-teal-700";
-    return base + " text-gray-700 hover:bg-gray-50 hover:text-teal-700";
+    if (isActive) return base + " bg-stone-50 text-stone-900 font-semibold";
+    return base + " text-stone-600 hover:bg-stone-50/50 hover:text-stone-900";
   };
 
-  const anchorClass = "text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-teal-700";
-  const anchorMobile = "block rounded-xl px-4 py-3.5 text-sm font-medium text-gray-700 transition-colors duration-150 hover:bg-gray-50 hover:text-teal-700";
+  const anchorClass = "text-xs font-semibold uppercase tracking-widest text-stone-500 transition-colors duration-200 hover:text-stone-900";
+  const anchorMobile = "block rounded-xl px-4 py-3.5 text-sm font-medium text-stone-600 transition-colors duration-150 hover:bg-stone-50 hover:text-stone-900";
 
   return (
     <>
@@ -51,17 +51,20 @@ const Navbar = () => {
         className={
           "fixed left-0 top-0 z-50 w-full transition-all duration-300 " +
           (scrolled
-            ? "bg-white/90 backdrop-blur-lg shadow-sm border-b border-gray-100/60 h-16"
+            ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-stone-200/40 h-16"
             : "bg-transparent h-20")
         }
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-8">
 
-          <Link to="/" onClick={close} className="flex-shrink-0 text-2xl font-black tracking-tight transition-opacity hover:opacity-80">
-            <span className="text-teal-700">Zenith</span>
-            <span className="text-amber-500">Spa</span>
+          {/* Premium Logo Design */}
+          <Link to="/" onClick={close} className="flex-shrink-0 flex items-center gap-2 transition-opacity hover:opacity-90">
+            <span className="text-xl font-light tracking-[0.2em] text-stone-900 uppercase">
+              Zenith <span className="font-semibold text-teal-600">Spa</span>
+            </span>
           </Link>
 
+          {/* Navigation Items */}
           <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
             {NAV_LINKS.map((link) =>
               link.href.startsWith("/#") ? (
@@ -76,20 +79,22 @@ const Navbar = () => {
             )}
           </nav>
 
+          {/* Premium CTA Button */}
           <div className="hidden md:block">
             <button
               onClick={handleBook}
-              className="rounded-xl bg-teal-700 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-teal-800 hover:scale-105 hover:shadow-md active:scale-100"
+              className="rounded-xl bg-stone-900 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-black hover:shadow-md active:scale-98"
             >
-              Book Appointment
+              Smart Booking
             </button>
           </div>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen((v) => !v)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
-            className="relative flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 transition-colors duration-200 hover:bg-gray-100 md:hidden"
+            className="relative flex h-10 w-10 items-center justify-center rounded-xl text-stone-900 transition-colors duration-200 hover:bg-stone-100 md:hidden"
           >
             <span className={"absolute transition-all duration-200 " + (isOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90")}>
               <HiOutlineX size={22} />
@@ -102,15 +107,17 @@ const Navbar = () => {
         </div>
       </header>
 
+      {/* Overlay backdrop */}
       <div
         aria-hidden={!isOpen}
         onClick={close}
         className={
-          "fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity duration-300 md:hidden " +
+          "fixed inset-0 z-40 bg-stone-900/20 backdrop-blur-sm transition-opacity duration-300 md:hidden " +
           (isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")
         }
       />
 
+      {/* Mobile Drawer */}
       <div
         role="dialog"
         aria-modal="true"
@@ -120,7 +127,7 @@ const Navbar = () => {
           (isOpen ? "translate-y-0" : "-translate-y-full")
         }
       >
-        <div className="mx-4 mt-20 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-2xl">
+        <div className="mx-4 mt-20 overflow-hidden rounded-2xl border border-stone-200/60 bg-white shadow-xl">
           <nav className="flex flex-col gap-1 p-3">
             {NAV_LINKS.map((link) =>
               link.href.startsWith("/#") ? (
@@ -134,9 +141,12 @@ const Navbar = () => {
               )
             )}
           </nav>
-          <div className="border-t border-gray-100 p-3">
-            <button onClick={handleBook} className="w-full rounded-xl bg-teal-700 py-3.5 text-sm font-bold text-white transition hover:bg-teal-800 active:scale-95">
-              Book Appointment
+          <div className="border-t border-stone-100 p-3">
+            <button 
+              onClick={handleBook} 
+              className="w-full rounded-xl bg-stone-900 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition hover:bg-black active:scale-98"
+            >
+              Smart Booking Experience
             </button>
           </div>
         </div>
@@ -146,3 +156,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
