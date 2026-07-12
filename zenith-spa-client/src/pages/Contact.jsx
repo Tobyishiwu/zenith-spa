@@ -9,7 +9,6 @@ import {
   FaUserTie,
   FaStar,
   FaChevronDown,
-  FaGlobe,
   FaArrowRight,
 } from "react-icons/fa";
 
@@ -62,7 +61,7 @@ const CONTACT_CARDS = [
     icon: FaCalendarCheck,
     title: "Availability",
     lines: ["Available Daily", "Flexible Scheduling", "Appointment Based"],
-    action: { label: "Book Now", href: "/booking", internal: true },
+    action: { label: "Book Now", href: "/therapists", internal: true },
     iconBg: "bg-stone-50 text-stone-600 border border-stone-200/40",
   },
 ];
@@ -111,9 +110,6 @@ const Contact = () => {
       <section className="relative flex min-h-[50vh] items-center overflow-hidden border-b border-stone-200/40 bg-white pb-16 pt-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full z-10">
           <div className="max-w-4xl text-left">
-            <span className="inline-flex items-center gap-2 rounded-full bg-stone-50 border border-stone-200/60 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-500 mb-6">
-              <FaGlobe className="text-teal-600 text-[10px] animate-pulse" /> Dedicated Concierge Desk
-            </span>
             <h1 className="text-4xl font-light tracking-tight text-stone-900 sm:text-5xl lg:text-6xl leading-[1.2]">
               {"Let\u2019s Create Your Perfect"}
               <br />
@@ -124,8 +120,8 @@ const Contact = () => {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link 
-                to="/booking" 
-                className="inline-flex items-center justify-center rounded-xl border border-teal-600 bg-teal-600 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-teal-700 active:scale-98"
+                to="/therapists" 
+                className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-black active:scale-98"
               >
                 Book Appointment
               </Link>
@@ -143,9 +139,6 @@ const Contact = () => {
       {/* ── CONTACT CARDS SECTION ─────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="mb-14 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/50 mb-3">
-            Get In Touch
-          </span>
           <h2 className="text-2xl font-light tracking-tight text-stone-900 sm:text-3xl">
             {"We\u2019re Here When You Need Us"}
           </h2>
@@ -186,9 +179,6 @@ const Contact = () => {
       <section className="bg-white border-y border-stone-200/40 py-20">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/50 mb-3">
-              Send a Message
-            </span>
             <h2 className="text-2xl font-light tracking-tight text-stone-900 sm:text-3xl">{"We\u2019d Love to Hear From You"}</h2>
             <p className="mx-auto mt-3 max-w-md text-xs font-light leading-5 text-stone-500">
               Fill in the details below and our client relationships manager will connect with you shortly.
@@ -239,9 +229,6 @@ const Contact = () => {
       {/* ── THE ZENITH DIFFERENCE SECTION ─────────────────────────── */}
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="mb-14 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/50 mb-3">
-            Why Zenith Spa
-          </span>
           <h2 className="text-2xl font-light tracking-tight text-stone-900 sm:text-3xl">The Zenith Difference</h2>
         </div>
         <div className="grid gap-6 sm:grid-cols-3">
@@ -261,9 +248,6 @@ const Contact = () => {
       <section className="bg-white border-t border-stone-200/40 py-20">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/50 mb-3">
-              FAQ
-            </span>
             <h2 className="text-2xl font-light tracking-tight text-stone-900 sm:text-3xl">Frequently Asked Questions</h2>
           </div>
           <div className="space-y-3">
@@ -299,9 +283,6 @@ const Contact = () => {
       {/* ── CLEAN DESIGN CTA SECTION ──────────────────────────────── */}
       <section className="bg-stone-50 border-t border-stone-200/40 py-20">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white border border-stone-200/40 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 shadow-xs mb-6">
-            Book Today
-          </span>
           <h2 className="text-3xl font-light tracking-tight text-stone-900 sm:text-4xl">
             Ready to Experience <br />
             <span className="font-normal text-teal-600 font-serif italic tracking-normal">Luxury Wellness?</span>
@@ -311,8 +292,8 @@ const Contact = () => {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link 
-              to="/booking" 
-              className="inline-flex items-center justify-center rounded-xl bg-teal-600 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-teal-700 active:scale-98"
+              to="/therapists" 
+              className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-xs transition-all duration-200 hover:bg-black active:scale-98"
             >
               Book Appointment
             </Link>

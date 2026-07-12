@@ -1,6 +1,6 @@
 ﻿import { useMemo, useState } from "react";
 import { FiSearch, FiSliders } from "react-icons/fi";
-import { FaArrowRight, FaClock, FaTag, FaHome, FaHotel, FaBriefcase, FaCompass, FaMapMarkerAlt, FaStar, FaGlobe, FaShieldAlt } from "react-icons/fa";
+import { FaArrowRight, FaClock, FaHome, FaHotel, FaBriefcase, FaCompass, FaMapMarkerAlt, FaGlobe, FaShieldAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { services } from "../data/services";
 
@@ -35,7 +35,7 @@ const Services = () => {
       });
     }
     return Array.from(cats);
-  }, [services]);
+  }, []);
 
   const getCustomPrice = (name) => {
     const lowerName = (name || "").toLowerCase();
@@ -93,7 +93,7 @@ const Services = () => {
       if (!aErotic && bErotic) return 1;
       return 0;
     });
-  }, [services, selectedCategory, search]);
+  }, [selectedCategory, search]);
 
   const venues = [
     { label: "Home", icon: <FaHome />, desc: "Transform your living space into a private personal oasis of tranquility." },
@@ -254,7 +254,6 @@ const Services = () => {
           <>
             <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
               {filtered.map((service) => {
-                const isErotic = (service.name || "").toLowerCase().includes("erotic");
                 const dynamicPrice = getCustomPrice(service.name);
 
                 return (
@@ -262,34 +261,14 @@ const Services = () => {
                     key={service._id || service.id} 
                     className="group flex flex-col justify-between overflow-hidden rounded-[2.5rem] border border-stone-200/20 bg-white shadow-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-stone-200/20"
                   >
-                    {/* Large Image Showcase Container Block */}
+                    {/* Clean, Badge-Free Image Container */}
                     <div className="relative h-80 overflow-hidden bg-stone-100">
                       <img
                         src={service.image || "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=800&q=80"}
                         alt={service.name}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-102 opacity-95 group-hover:opacity-100"
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-stone-900/10 via-transparent to-transparent pointer-events-none" />
-                      
-                      {/* Context Badges Top Bar Stack */}
-                      <div className="absolute left-5 top-5 flex flex-col gap-1.5 items-start">
-                        {service.category && (
-                          <span className="inline-flex items-center gap-1.5 rounded-xl bg-white/95 backdrop-blur-md px-3.5 py-1.5 text-[10px] font-semibold text-stone-700 shadow-sm uppercase tracking-wider">
-                            <FaTag className="text-teal-600 text-[9px]" />
-                            {service.category}
-                          </span>
-                        )}
-                        {(service.featured || isErotic) && (
-                          <span className="inline-flex items-center gap-1.5 rounded-xl bg-teal-600 px-3.5 py-1.5 text-[10px] font-semibold text-white shadow-md uppercase tracking-wider">
-                            <FaStar className="text-[9px] text-amber-300 animate-spin-slow" />
-                            Featured Experience
-                          </span>
-                        )}
-                      </div>
-
-                      <span className="absolute bottom-5 right-5 inline-flex items-center gap-1.5 rounded-xl bg-stone-900/60 backdrop-blur-sm px-3 py-1.5 text-[10px] font-medium text-white shadow-sm">
-                        <FaGlobe className="text-[9px] text-teal-400" /> Global Roster
-                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-t from-stone-950/20 via-transparent to-transparent pointer-events-none" />
                     </div>
 
                     {/* Information Content Segment Block */}
@@ -322,20 +301,13 @@ const Services = () => {
                         </p>
                       </div>
 
-                      {/* Explicit Interactive CTA Foot Row links */}
+                      {/* Explicit Interactive CTA Foot Row links pointing to Therapists */}
                       <div className="mt-8 pt-6 border-t border-stone-100 flex items-center justify-between gap-4">
                         <Link
-                          to={`/booking?service=${service._id || service.id}`}
-                          className="inline-flex items-center justify-center rounded-xl border border-teal-600/30 bg-white px-6 py-3 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-500 hover:bg-teal-50/50 hover:text-teal-700 active:scale-98"
+                          to="/therapists"
+                          className="w-full inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-black active:scale-98"
                         >
                           Book Now
-                        </Link>
-                        
-                        <Link
-                          to="/services"
-                          className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-stone-400 transition-all hover:gap-2 hover:text-stone-600 py-2"
-                        >
-                          Learn More <FaArrowRight className="text-[9px]" />
                         </Link>
                       </div>
                     </div>
@@ -368,7 +340,7 @@ const Services = () => {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
             <Link 
-              to="/booking" 
+              to="/therapists" 
               className="inline-flex items-center justify-center rounded-xl border border-teal-600/30 bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
             >
               Book Your Experience
