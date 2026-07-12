@@ -44,7 +44,6 @@ const About = () => {
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-stone-800 antialiased selection:bg-teal-50 selection:text-teal-800">
 
-      {/* ── LUXURY HERO SECTION ───────────────────────────────────── */}
       <section className="relative flex min-h-[75vh] items-center overflow-hidden bg-stone-950 pb-28 pt-40">
         <div className="absolute inset-0 z-0">
           <img
@@ -68,25 +67,25 @@ const About = () => {
             <p className="mt-8 text-sm sm:text-base leading-7 text-stone-300 max-w-2xl font-light tracking-wide">
               We bring premium spa experiences directly to your home, hotel, office, or private event — allowing you to relax, recharge, and reconnect without leaving your comfort zone.
             </p>
+            {/* Actions — Meet Our Therapists is now the major/primary button */}
             <div className="mt-10 flex flex-wrap gap-4">
               <Link 
-                to="/booking" 
-                className="inline-flex items-center justify-center rounded-xl border border-teal-600/30 bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
+                to="/therapists" 
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-stone-900 shadow-sm transition-all duration-200 hover:bg-stone-100 active:scale-98"
               >
-                Book Appointment
+                Meet Our Therapists <FaArrowRight className="text-[9px]" />
               </Link>
               <Link 
                 to="/therapists" 
-                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/10"
               >
-                Meet Our Therapists <FaArrowRight className="text-[9px]" />
+                Book Appointment
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── STATS DISPLAY SECTION ─────────────────────────────────── */}
       <section className="relative z-20 mx-auto max-w-7xl px-6 -mt-16 lg:px-8">
         <div className="rounded-[2.5rem] bg-white border border-stone-200/40 p-2 shadow-xl shadow-stone-200/20">
           <div className="grid grid-cols-2 divide-x divide-y divide-stone-100 border-stone-100 lg:grid-cols-4 lg:divide-y-0">
@@ -100,7 +99,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── OUR STORY STORYTELLING SECTION ────────────────────────── */}
       <section className="py-28">
         <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:grid-cols-2 lg:items-center lg:px-8">
           <div className="relative">
@@ -157,17 +155,25 @@ const About = () => {
               ))}
             </div>
 
-            <Link 
-              to="/booking" 
-              className="mt-10 inline-flex items-center justify-center rounded-xl border border-teal-600/30 bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
-            >
-              Reserve Your Experience <FaArrowRight className="text-[9px] ml-1.5" />
-            </Link>
+            {/* Actions — Meet Our Therapists is now the major/primary button */}
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link 
+                to="/therapists" 
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-stone-900 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-black active:scale-98"
+              >
+                Meet Our Therapists <FaArrowRight className="text-[9px]" />
+              </Link>
+              <Link 
+                to="/therapists" 
+                className="inline-flex items-center justify-center rounded-xl border border-teal-600/30 bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
+              >
+                Reserve Your Experience
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── VALUES PRINCIPLES SECTION ─────────────────────────────── */}
       <section className="bg-white border-y border-stone-200/40 py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-16 text-center">
@@ -190,7 +196,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── EXPERIENCE GALLERY VISUAL SECTION ─────────────────────── */}
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-12 text-center">
@@ -213,7 +218,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── CTA COMMENCE TRAVEL ACCENT SECTION ────────────────────── */}
       <section className="bg-stone-950 py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-radial-gradient from-teal-900/10 via-transparent to-transparent opacity-50 pointer-events-none" />
         <div className="mx-auto max-w-4xl px-6 text-center relative z-10">
@@ -227,10 +231,17 @@ const About = () => {
           <p className="mx-auto mt-6 max-w-xl text-xs sm:text-sm leading-6 text-stone-400 font-light tracking-wide">
             Book a session with one of our expert therapists and discover what true relaxation feels like.
           </p>
+          {/* Actions — Meet Our Therapists is now the major/primary button */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link 
-              to="/booking" 
+              to="/therapists" 
               className="inline-flex items-center justify-center rounded-xl border border-teal-500 bg-teal-600 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-white shadow-md shadow-teal-900/20 transition-all duration-200 hover:bg-teal-500 active:scale-98"
+            >
+              Meet Our Therapists
+            </Link>
+            <Link 
+              to="/therapists" 
+              className="inline-flex items-center gap-1 border border-white/10 bg-white/5 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-stone-300 rounded-xl transition-all duration-200 hover:bg-white/10 hover:text-white"
             >
               Book Appointment
             </Link>

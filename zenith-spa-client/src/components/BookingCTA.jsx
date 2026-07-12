@@ -28,7 +28,6 @@ const BookingCTA = () => {
               Our intelligent platform is designed to recommend verified practitioners right to your location. Select your destination venue and experience a pristine therapeutic session tailored precisely to your environment.
             </p>
 
-            {/* Seamless Location Selection Grid */}
             <div className="mt-8">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-400 block mb-3">
                 Available Destinations:
@@ -47,13 +46,21 @@ const BookingCTA = () => {
             </div>
           </div>
 
-          <div className="mt-10 lg:mt-0 flex-shrink-0">
+          {/* Actions — View Therapists is now the major/primary button */}
+          <div className="mt-10 lg:mt-0 flex flex-col gap-3 flex-shrink-0">
             <Link
-              to="/booking"
-              className="inline-flex items-center gap-3 rounded-xl border border-teal-600/30 bg-white px-7 py-4 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
+              to="/therapists"
+              className="inline-flex items-center justify-center gap-3 rounded-xl bg-stone-900 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-black active:scale-98"
+            >
+              View Therapists
+              <FaArrowRight className="text-[10px]" />
+            </Link>
+
+            <Link
+              to="/therapists"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-7 py-3 text-xs font-semibold uppercase tracking-wider text-stone-500 transition-all duration-200 hover:border-stone-300 hover:bg-stone-50"
             >
               Book Appointment
-              <FaArrowRight className="text-[10px]" />
             </Link>
           </div>
 

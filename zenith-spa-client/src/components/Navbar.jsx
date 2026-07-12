@@ -27,9 +27,8 @@ const Navbar = () => {
   }, [isOpen]);
 
   const close = useCallback(() => setIsOpen(false), []);
-  const handleBook = () => { close(); navigate("/booking"); };
+  const handleBook = () => { close(); navigate("/therapists"); };
 
-  // Clean Tech Minimal Aesthetic Desktop Classes
   const getDesktopLinkClass = (isActive) => {
     const base = "relative text-xs font-semibold uppercase tracking-widest transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-teal-600 after:transition-transform after:duration-300 hover:after:scale-x-100";
     if (isActive) return base + " text-stone-900 after:scale-x-100";
@@ -57,14 +56,12 @@ const Navbar = () => {
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-8">
 
-          {/* Premium Logo Design */}
           <Link to="/" onClick={close} className="flex-shrink-0 flex items-center gap-2 transition-opacity hover:opacity-90">
             <span className="text-xl font-light tracking-[0.2em] text-stone-900 uppercase">
               Zenith <span className="font-semibold text-teal-600">Spa</span>
             </span>
           </Link>
 
-          {/* Navigation Items */}
           <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
             {NAV_LINKS.map((link) =>
               link.href.startsWith("/#") ? (
@@ -79,7 +76,6 @@ const Navbar = () => {
             )}
           </nav>
 
-          {/* Premium CTA Button */}
           <div className="hidden md:block">
             <button
               onClick={handleBook}
@@ -89,7 +85,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen((v) => !v)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -107,7 +102,6 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Overlay backdrop */}
       <div
         aria-hidden={!isOpen}
         onClick={close}
@@ -117,7 +111,6 @@ const Navbar = () => {
         }
       />
 
-      {/* Mobile Drawer */}
       <div
         role="dialog"
         aria-modal="true"
@@ -156,4 +149,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

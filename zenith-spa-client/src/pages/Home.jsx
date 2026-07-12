@@ -14,12 +14,12 @@ const Home = () => {
       {/* Primary Value Propositions & Core Offerings */}
       <main className="space-y-24 pb-24">
         <Features />
-
+<Therapists />
         <Services />
 
         <WhyChoose />
 
-        <Therapists />
+        
 
         <BookingCTA />
       </main>

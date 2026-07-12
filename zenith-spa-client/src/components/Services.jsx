@@ -2,7 +2,6 @@
 import { FaArrowRight, FaClock, FaSlidersH, FaGlobe } from "react-icons/fa";
 import { services } from "../data/services";
 
-// Inject Erotic Massage safely if it isn't hardcoded in the data array, then sort to feature it first
 const baseServices = [...services];
 const hasErotic = baseServices.some(s => s.name?.toLowerCase().includes("erotic"));
 
@@ -29,7 +28,6 @@ const Services = () => {
     <section id="services" className="bg-[#FAF9F6] py-24 border-t border-stone-200/30">
       <div className="mx-auto max-w-7xl px-6">
 
-        {/* Header Section */}
         <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/40 shadow-sm mb-4">
@@ -51,14 +49,12 @@ const Services = () => {
           </Link>
         </div>
 
-        {/* Services Grid */}
         <div className="grid gap-8 md:grid-cols-2">
           {featuredServices.map((service) => (
             <article
               key={service.id}
               className="group overflow-hidden rounded-[2rem] border border-stone-200/30 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-stone-200/30"
             >
-              {/* Media Container */}
               <div className="relative overflow-hidden bg-stone-50">
                 <img
                   src={service.image}
@@ -71,7 +67,6 @@ const Services = () => {
                 </span>
               </div>
 
-              {/* Content Container */}
               <div className="p-8">
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
@@ -96,16 +91,15 @@ const Services = () => {
                   {service.description}
                 </p>
 
-                {/* Duration Badge */}
                 <div className="mb-6 inline-flex items-center gap-1.5 rounded-lg bg-stone-50/80 px-2.5 py-1 text-xs font-medium text-stone-400 ring-1 ring-stone-200/30">
                   <FaClock className="text-[10px] text-stone-300" />
                   <span className="text-stone-500">{service.duration}</span>
                 </div>
 
-                {/* Footer Actions */}
+                {/* Footer Actions — booking now routes through the therapists page */}
                 <div className="flex items-center justify-between border-t border-stone-100 pt-5">
                   <Link
-                    to={`/booking?service=${service.slug}`}
+                    to="/therapists"
                     className="inline-flex items-center justify-center rounded-xl border border-teal-600/30 bg-white px-5 py-3 text-xs font-semibold uppercase tracking-wider text-teal-600 shadow-sm transition-all duration-200 hover:border-teal-400 hover:bg-teal-50/40 hover:text-teal-700 active:scale-98"
                   >
                     Smart Booking
