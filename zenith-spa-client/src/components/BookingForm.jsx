@@ -10,6 +10,7 @@ import {
   FaUser,
   FaCheckCircle,
   FaStar,
+  FaInfoCircle,
 } from "react-icons/fa";
 import axios from "../api/axios";
 import { services as dbServices } from "../data/services";
@@ -279,7 +280,7 @@ const safePaymentMethods = Array.isArray(paymentMethods)
                   <option value="">Choose a treatment...</option>
                   {dbServices && dbServices.map((s) => (
                     <option key={s._id} value={s._id}>
-                      {s.name}{s.price ? ` — $${s.price}` : ""}{s.duration ? ` · ${s.duration} mins` : ""}
+                      {s.name}{s.startingPrice ? ` — $${s.startingPrice}` : ""}{s.duration ? ` · ${s.duration}` : ""}
                     </option>
                   ))}
                 </select>
@@ -424,8 +425,19 @@ const safePaymentMethods = Array.isArray(paymentMethods)
             </div>
           )}
 
+          {/* -- Extended session pricing note --------------------------- */}
+          <div className="mt-6 flex items-start gap-3 rounded-2xl border border-teal-100 bg-teal-50/60 px-4 py-3.5">
+            <FaInfoCircle className="mt-0.5 flex-shrink-0 text-teal-600" size={14} />
+            <p className="text-xs leading-5 text-teal-800">
+              Want more time? Extend your session in 10-minute increments for an
+              extra $10 each. For example, a 60-minute session extended to 70
+              minutes is $70 total. Just mention your preferred extra time in
+              the notes above and we'll confirm it with you.
+            </p>
+          </div>
+
           <button type="submit" disabled={loading}
-            className="mt-8 w-full rounded-2xl bg-teal-700 py-4 text-base font-bold text-white shadow-lg transition-all duration-200 hover:bg-teal-800 hover:shadow-xl active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-6 w-full rounded-2xl bg-teal-700 py-4 text-base font-bold text-white shadow-lg transition-all duration-200 hover:bg-teal-800 hover:shadow-xl active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Creating Booking..." : "Continue to Payment"}
           </button>
@@ -438,5 +450,3 @@ const safePaymentMethods = Array.isArray(paymentMethods)
 };
 
 export default BookingForm;
-
-
