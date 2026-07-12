@@ -8,27 +8,27 @@
     category: "Massage",
     description:
       "An exquisite classic full-body therapy utilizing long, fluid strokes and meticulous kneading techniques to diminish muscle fatigue, optimize circulatory flow, and induce profound serenity.",
-    duration: "60 – 90 Minutes",
-    startingPrice: 25,
+    duration: "60 Minutes",
+    startingPrice: 60,
     featured: true,
     image:
       "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80",
   },
   {
-  id: 2,
-  _id: "6a51d2e26d770efd7d166626",
-  slug: "erotic-massage",
-  name: "Erotic Massage",
-  subtitle: "Intimate · Relax · Rejuvenate",
-  category: "Massage",
-  description:
-    "A luxurious relaxation experience designed to promote deep physical comfort, stress relief, and personalized wellness in a private, discreet setting with a professional therapist.",
-  duration: "60 – 90 Minutes",
-  startingPrice: 45,
-  featured: true,
-  image:
-    "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80",
-},
+    id: 2,
+    _id: "6a51d2e26d770efd7d166626",
+    slug: "erotic-massage",
+    name: "Erotic Massage",
+    subtitle: "Intimate · Relax · Rejuvenate",
+    category: "Massage",
+    description:
+      "A luxurious relaxation experience designed to promote deep physical comfort, stress relief, and personalized wellness in a private, discreet setting with a professional therapist.",
+    duration: "60 Minutes",
+    startingPrice: 60,
+    featured: true,
+    image:
+      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80",
+  },
   {
     id: 3,
     _id: "6a4a123b49cbb50230a0c206",
@@ -38,8 +38,8 @@
     category: "Massage",
     description:
       "A targeted therapeutic treatment that employs deliberate, high-intensity pressure to reach sub-dermal muscle layers and structural tissues, effectively dissolving chronic tension and structural discomfort.",
-    duration: "60 – 90 Minutes",
-    startingPrice: 35,
+    duration: "60 Minutes",
+    startingPrice: 60,
     featured: true,
     image:
       "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1200&q=80",
@@ -54,7 +54,7 @@
     description:
       "An ultra-premium thermal experience harnessing polished basalt stones crafted by nature to channel deep, penetrating heat into sore muscle groups, unraveling stress beyond the capabilities of traditional touch.",
     duration: "90 Minutes",
-    startingPrice: 55,
+    startingPrice: 90,
     featured: true,
     image:
       "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1200&q=80",
@@ -69,7 +69,7 @@
     description:
       "A multisensory restorative odyssey pairing custom-blended, organic botanical essences with specialized master massage strokes to balance cognitive state, calm the nervous system, and lavish the skin.",
     duration: "60 Minutes",
-    startingPrice: 35,
+    startingPrice: 60,
     featured: true,
     image:
       "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=1200&q=80",
@@ -84,7 +84,7 @@
     description:
       "An advanced skin-refining treatment utilizing customized premium serums, careful exfoliation, and a sculpting facial massage to optimize hydration and cultivate a youthful, radiant visage.",
     duration: "60 Minutes",
-    startingPrice: 40,
+    startingPrice: 60,
     featured: false,
     image:
       "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=80",
@@ -98,8 +98,8 @@
     category: "Body Treatment",
     description:
       "An upscale full-body cell renewal ritual integrating mineral-rich compounds and premium botanicals to sweep away imperfections, enhance skin texturization, and unveil an incandescent, luminous glow.",
-    duration: "45 Minutes",
-    startingPrice: 30,
+    duration: "30 Minutes",
+    startingPrice: 40,
     featured: false,
     image:
       "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
@@ -114,7 +114,7 @@
     description:
       "An opulent, shared sanctuary experience tailored within an elite private suite. Two master therapists curate individualized paths of pure relaxation for both guests concurrently.",
     duration: "90 Minutes",
-    startingPrice: 75,
+    startingPrice: 90,
     featured: true,
     image:
       "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=1200&q=80",
@@ -129,7 +129,7 @@
     description:
       "A profoundly secure, expert-guided therapy designed exclusively for expectant mothers to alleviate physical stress points, minimize joint tension, and foster nurturing serenity.",
     duration: "60 Minutes",
-    startingPrice: 40,
+    startingPrice: 60,
     featured: false,
     image:
       "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80",

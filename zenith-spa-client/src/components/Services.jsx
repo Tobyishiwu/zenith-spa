@@ -13,7 +13,8 @@ if (!hasErotic) {
     image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80",
     subtitle: "Sensual Somatic Rejuvenation",
     description: "A premium, deeply relaxing somatic experience designed to release deep-seated tension, enhance body awareness, and restore intimate energy flow.",
-    duration: "60 / 90 / 120 min"
+    duration: "60 Minutes",
+    startingPrice: 60,
   });
 }
 
@@ -82,7 +83,7 @@ const Services = () => {
                   <div className="text-right flex-shrink-0">
                     <span className="block text-[10px] font-semibold uppercase tracking-wider text-stone-400">From</span>
                     <span className="text-lg font-medium text-stone-800">
-                      $25
+                      ${service.startingPrice}
                     </span>
                   </div>
                 </div>
@@ -96,7 +97,6 @@ const Services = () => {
                   <span className="text-stone-500">{service.duration}</span>
                 </div>
 
-                {/* Footer Actions — booking now routes through the therapists page */}
                 <div className="flex items-center justify-between border-t border-stone-100 pt-5">
                   <Link
                     to="/therapists"

@@ -37,19 +37,6 @@ const Services = () => {
     return Array.from(cats);
   }, []);
 
-  const getCustomPrice = (name) => {
-    const lowerName = (name || "").toLowerCase();
-    if (lowerName.includes("swedish")) return 25;
-    if (lowerName.includes("deep tissue")) return 35;
-    if (lowerName.includes("erotic")) return 45;
-    if (lowerName.includes("facial")) return 40;
-    if (lowerName.includes("scrub") || lowerName.includes("polish")) return 30;
-    if (lowerName.includes("hot stone")) return 55;
-    if (lowerName.includes("couples")) return 75;
-    if (lowerName.includes("prenatal")) return 40;
-    return 25;
-  };
-
   const filtered = useMemo(() => {
     if (!Array.isArray(services)) return [];
     let result = [...services];
@@ -64,8 +51,8 @@ const Services = () => {
         subtitle: "Sensual Somatic Rejuvenation",
         category: "Massage",
         description: "A premium, deeply relaxing somatic experience designed to release deep-seated tension, enhance body awareness, and restore intimate energy flow inside a sanctuary of absolute discretion.",
-        duration: "60 – 90 Minutes",
-        startingPrice: 45,
+        duration: "60 Minutes",
+        startingPrice: 60,
         featured: true,
         image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80",
       });
@@ -106,7 +93,6 @@ const Services = () => {
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-stone-800 antialiased selection:bg-teal-50 selection:text-teal-800">
 
-      {/* ── LUXURY HERO SECTION ───────────────────────────────────── */}
       <section className="relative flex min-h-[75vh] items-center overflow-hidden bg-stone-950 pb-28 pt-40">
         <div className="absolute inset-0 z-0">
           <img
@@ -133,7 +119,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* ── FLEXIBLE DESTINATION SECTION ────────────────────────── */}
       <section className="relative z-20 mx-auto max-w-7xl px-6 -mt-16 lg:px-8">
         <div className="rounded-[2.5rem] bg-white border border-stone-200/40 p-10 lg:p-12 shadow-xl shadow-stone-200/20">
           <div className="mb-10 max-w-2xl">
@@ -168,7 +153,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* ── INTELLIGENT MATCHING SYSTEM SUMMARY ───────────────────── */}
       <section className="mx-auto max-w-7xl px-6 pt-20 pb-4 lg:px-8">
         <div className="rounded-[2rem] border border-stone-200/30 bg-gradient-to-br from-white to-stone-50/40 p-8 sm:p-10 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           <div className="max-w-3xl">
@@ -189,7 +173,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* ── CONTROLS & CURATED FILTER MENU ────────────────────────── */}
       <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="mb-16 flex flex-col items-center justify-between gap-6 md:flex-row border-b border-stone-200/30 pb-8">
           <div className="flex flex-wrap gap-2 overflow-x-auto max-w-full justify-center md:justify-start">
@@ -220,14 +203,12 @@ const Services = () => {
           </div>
         </div>
 
-        {/* Loading UI State Container */}
         {loading && (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
         )}
 
-        {/* Empty Filter Screen Grid Result Handler */}
         {!loading && filtered.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-stone-200/40 shadow-sm">
@@ -249,74 +230,65 @@ const Services = () => {
           </div>
         )}
 
-        {/* Premium Luxury Grid Layout Output Container */}
         {!loading && filtered.length > 0 && (
           <>
             <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((service) => {
-                const dynamicPrice = getCustomPrice(service.name);
+              {filtered.map((service) => (
+                <article 
+                  key={service._id || service.id} 
+                  className="group flex flex-col justify-between overflow-hidden rounded-[2.5rem] border border-stone-200/20 bg-white shadow-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-stone-200/20"
+                >
+                  <div className="relative h-80 overflow-hidden bg-stone-100">
+                    <img
+                      src={service.image || "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=800&q=80"}
+                      alt={service.name}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/20 via-transparent to-transparent pointer-events-none" />
+                  </div>
 
-                return (
-                  <article 
-                    key={service._id || service.id} 
-                    className="group flex flex-col justify-between overflow-hidden rounded-[2.5rem] border border-stone-200/20 bg-white shadow-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-stone-200/20"
-                  >
-                    {/* Clean, Badge-Free Image Container */}
-                    <div className="relative h-80 overflow-hidden bg-stone-100">
-                      <img
-                        src={service.image || "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=800&q=80"}
-                        alt={service.name}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-stone-950/20 via-transparent to-transparent pointer-events-none" />
-                    </div>
+                  <div className="flex flex-grow flex-col justify-between p-8">
+                    <div>
+                      <h3 className="text-xl font-normal tracking-tight text-stone-900 group-hover:text-teal-600 transition-colors duration-300">
+                        {service.name}
+                      </h3>
 
-                    {/* Information Content Segment Block */}
-                    <div className="flex flex-grow flex-col justify-between p-8">
-                      <div>
-                        <h3 className="text-xl font-normal tracking-tight text-stone-900 group-hover:text-teal-600 transition-colors duration-300">
-                          {service.name}
-                        </h3>
-
-                        {service.subtitle && (
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-600/90 mt-1 mb-4">
-                            {service.subtitle}
-                          </p>
-                        )}
-
-                        <div className="mb-5 flex flex-wrap items-center gap-4 text-xs font-medium text-stone-500">
-                          <span className="flex items-center gap-1.5 rounded-lg bg-stone-50 px-2.5 py-1 ring-1 ring-stone-200/30">
-                            <FaClock className="text-stone-300 text-[10px]" />
-                            <span className="text-stone-600 text-[11px]">{service.duration || "60 mins"}</span>
-                          </span>
-                          <span className="text-stone-200">|</span>
-                          <div>
-                            <span className="text-[10px] uppercase font-medium tracking-wider text-stone-400 mr-1.5">Starting From</span>
-                            <span className="text-sm font-medium text-stone-900">${dynamicPrice}</span>
-                          </div>
-                        </div>
-
-                        <p className="text-xs leading-5.5 text-stone-500 font-light tracking-wide line-clamp-3">
-                          {service.description}
+                      {service.subtitle && (
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-600/90 mt-1 mb-4">
+                          {service.subtitle}
                         </p>
+                      )}
+
+                      <div className="mb-5 flex flex-wrap items-center gap-4 text-xs font-medium text-stone-500">
+                        <span className="flex items-center gap-1.5 rounded-lg bg-stone-50 px-2.5 py-1 ring-1 ring-stone-200/30">
+                          <FaClock className="text-stone-300 text-[10px]" />
+                          <span className="text-stone-600 text-[11px]">{service.duration || "60 Minutes"}</span>
+                        </span>
+                        <span className="text-stone-200">|</span>
+                        <div>
+                          <span className="text-[10px] uppercase font-medium tracking-wider text-stone-400 mr-1.5">Starting From</span>
+                          <span className="text-sm font-medium text-stone-900">${service.startingPrice}</span>
+                        </div>
                       </div>
 
-                      {/* Explicit Interactive CTA Foot Row links pointing to Therapists */}
-                      <div className="mt-8 pt-6 border-t border-stone-100 flex items-center justify-between gap-4">
-                        <Link
-                          to="/therapists"
-                          className="w-full inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-black active:scale-98"
-                        >
-                          Book Now
-                        </Link>
-                      </div>
+                      <p className="text-xs leading-5.5 text-stone-500 font-light tracking-wide line-clamp-3">
+                        {service.description}
+                      </p>
                     </div>
-                  </article>
-                );
-              })}
+
+                    <div className="mt-8 pt-6 border-t border-stone-100 flex items-center justify-between gap-4">
+                      <Link
+                        to="/therapists"
+                        className="w-full inline-flex items-center justify-center rounded-xl bg-stone-900 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-black active:scale-98"
+                      >
+                        Book Now
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
 
-            {/* Pagination / Total Counter Status Display Area */}
             {(search || selectedCategory !== "All") && (
               <p className="mt-12 text-center text-xs tracking-widest text-stone-400 uppercase font-medium">
                 Retrieved <span className="font-semibold text-stone-600">{filtered.length}</span> curated treatment option{filtered.length !== 1 ? "s" : ""}
@@ -326,7 +298,6 @@ const Services = () => {
         )}
       </section>
 
-      {/* ── CTA LUXURY ANYWHERE UPGRADE SECTION ───────────────────── */}
       <section className="bg-white border-t border-stone-200/40 py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-50 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-400 ring-1 ring-stone-200/40 shadow-sm mb-6">
